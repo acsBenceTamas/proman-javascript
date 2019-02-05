@@ -5,6 +5,13 @@ function init() {
     // loads the boards to the screen
     dom.loadBoards();
 
+    document.getElementById("send-board-button").addEventListener('click',function () {
+        dom.addBoard($('#create-board-form').serializeArray()[1]['value']);
+        console.log('wut')
+    });
+
+
+
 }
 
 init();

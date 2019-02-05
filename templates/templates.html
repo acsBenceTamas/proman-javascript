@@ -1,0 +1,60 @@
+<div id="template-card" hidden>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">New</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Test 1</li>
+            <li class="list-group-item">Test 2</li>
+            <li class="list-group-item">Test 3</li>
+        </ul>
+    </div>
+</div>
+
+<div id="template-board" hidden>
+    <div class="card" style="margin-top: 15px;">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <span class="board-title">Title</span>
+                <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
+                <button class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#edit-board">✎</button>
+                <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
+                    ▼
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="card-body collapse show" aria-labelledby="headingOne" data-parent="#boards">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">New</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">In progress</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Testing</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Done</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
