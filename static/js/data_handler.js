@@ -16,28 +16,58 @@ let dataHandler = {
         this._loadData();
     },
     getBoards: function (callback) {
-        // the boards are retrieved and then the callback function is called with the boards
+        fetch('/boards/')
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
     getBoard: function (boardId, callback) {
-        // the board is retrieved and then the callback function is called with the board
+        fetch(`/boards/${boardId}`)
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
     getStatuses: function (callback) {
-        // the statuses are retrieved and then the callback function is called with the statuses
+        fetch('/status/')
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
     getStatus: function (statusId, callback) {
-        // the status is retrieved and then the callback function is called with the status
+        fetch(`/status/${statusId}`)
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
     getCardsByBoardId: function (boardId, callback) {
-        // the cards are retrieved and then the callback function is called with the cards
+        fetch(`/board/${boardId}/cards/`)
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
     getCard: function (cardId, callback) {
-        // the card is retrieved and then the callback function is called with the card
+        fetch(`/cards/${cardId}`)
+            .then((response) => response.json())
+            .then((data) => callback(data))
     },
-    createNewBoard: function (boardTitle, callback) {
-        // creates new board, saves it and calls the callback function with its data
+    createNewBoard: function (boardTitle, isPublic, callback) {
+        let form = new FormData();
+        form.set("title", boardTitle);
+        form.set("public", isPublic);
+        fetch('/boards/create/',
+            {method: 'POST',
+            body: form}
+            )
+            .then((response) =>response.json())
+            .then((data) => callback(data))
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
-        // creates new card, saves it and calls the callback function with its data
+    createNewCard: function (cardTitle, boardId, statusId, position, callback) {
+        let form = new FormData();
+        form.set("title", cardTitle);
+        form.set("board_id", boardId);
+        form.set("status_id", statusId);
+        form.set("position", position);
+        fetch('/cards/create/',
+            {method: 'POST',
+                body: form}
+        )
+            .then((response) =>response.json())
+            .then((data) => callback(data))
     }
     // here comes more features
 };

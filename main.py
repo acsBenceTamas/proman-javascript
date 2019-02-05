@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, request
 from functools import wraps
 import json
 import data_manager
@@ -77,6 +77,33 @@ def cards_by_id(card_id):
             return json.dumps(data_manager.get_card_by_id(card_id))
 
     return json.dumps(False)
+
+
+@app.route("/board/<int:board_id>/cards/")
+def cards_by_board_id(board_id):
+    board = data_manager.get_board_by_id(board_id)
+    if board:
+        if board.get('user_id', -1) == session.get('user_id'):
+            return json.dumps(data_manager.get_cards_by_board_id(board_id))
+
+    return json.dumps(False)
+
+
+@app.route("/cards/create", methods=["POST"])
+def create_new_card():
+    return data_manager.create_new_card(request.form)
+
+
+@app.route("/boards/create", methods=["POST"])
+def create_new_board():
+    print(request.form)
+    # data_manager.create_new_board(request.form, session.get('user_id'))
+    return "done"
+
+
+@app.route("/test/")
+def test():
+    pass
 
 
 def main():
