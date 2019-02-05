@@ -69,13 +69,15 @@ def get_status_by_id(cursor, status_id):
 
 
 @connection_handler
-def get_all_cards(cursor):
+def get_all_cards_for_user(cursor, user_id=-1):
     cursor.execute(
         sql.SQL(
             """
-            SELECT * from cards
+            SELECT cards.* 
+            FROM cards JOIN boards ON cards.board_id = boards.id
+            WHERE boards.user_id = {user_id} OR boards.user_id = -1
             """
-        )
+        ).format(user_id=sql.Literal(user_id))
     )
     return cursor.fetchall()
 
@@ -88,7 +90,7 @@ def get_cards_for_board(cursor, board_id):
             SELECT * FROM cards
             WHERE board_id = {board_id}
             """
-        ).format(board_id=board_id)
+        ).format(board_id=sql.Literal(board_id))
     )
     return cursor.fetchall()
 
@@ -99,8 +101,8 @@ def get_card_by_id(cursor, card_id):
         sql.SQL(
             """
             SELECT * FROM cards
-            WHERE board_id = {card_id}
+            WHERE id = {card_id}
             """
-        ).format(card_id=card_id)
+        ).format(card_id=sql.Literal(card_id))
     )
     return cursor.fetchone()

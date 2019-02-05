@@ -15,11 +15,11 @@ def verify_password(plain_text_password, hashed_password):
         return False
 
 
-def check_username_validity( username ):
-    allowed = set(string.ascii_lowercase + string.digits + '_')
-    return set(username.lower()) <= allowed and username
+def check_text_validity(text, max_length=32):
+    allowed = set(text.ascii_lowercase + text.digits + '_')
+    return set(text.lower()) <= allowed and text and len(text) <= max_length
 
 
-def check_password_validity( password ):
+def check_password_validity(password):
     allowed = set(string.ascii_lowercase + string.digits + string.punctuation)
     return set(password.lower()) <= allowed and password
