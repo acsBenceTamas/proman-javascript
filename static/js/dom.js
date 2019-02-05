@@ -28,6 +28,19 @@ let dom = {
         }
 
         return elementToExtend.lastChild;
-    }
+    },
     // here comes more features
+    addBoard: function (boardTitle) {
+        if(boardTitle.length){
+            document.getElementById('template-board').getElementsByClassName('board-title')[0].textContent = boardTitle;
+            console.log(boardTitle);
+            console.log(document.getElementById('template-board'));
+            let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
+            document.getElementById('boards').appendChild(boardTemplateClone);
+            document.getElementById('board-title').setAttribute('class','form-control is-valid');
+            $('#create-board').modal('hide');
+        }else{
+            document.getElementById('board-title').setAttribute('class','form-control is-invalid');
+        }
+    }
 };

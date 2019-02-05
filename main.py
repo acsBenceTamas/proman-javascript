@@ -1,35 +1,42 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, escape, request
 from functools import wraps
 import json
 import data_manager
 
 app = Flask(__name__)
-
-
 app.secret_key = "CTjad5+=513V@Cxa356+6LrDC#Y<23/5=_._@@&%/=seeZu3%4!"
 
 
-def need_login(**login_kwargs):
-    def decorator(server_function):
-        @wraps(server_function)
-        def wrapper(*args, **kwargs):
-            if session.get('user_id'):
-                if login_kwargs.get("user_id", -1):
-                    valid = True
-                else:
-                    return "Access Denied"
-                if valid:
-                    return server_function(*args, **kwargs)
-            else:
-                return "Requires Login"
-        return wrapper
-    return decorator
+def check_login():
+    if request.method == 'POST':
+        if request.form['type'] == 'register':
+            # status = database.user_register(request.form['username'], request.form['password'])
+            # if status == 'success':
+            #     session['username'] = request.form['username']
+            #     return {'redirect': '/'}
+            # else:
+            #     session['registration'] = status
+            #     return {'redirect': '/register'}
+            return {'redirect': '/'}
+        elif request.form['type'] == 'login':
+            # if database.user_login(request.form['username'], request.form['password']):
+            #     session['username'] = request.form['username']
+            #     return {'redirect': '/'}
+            # else:
+            #     session['login'] = 'error'
+            #     return {'redirect': '/login'}
+            return {'redirect': '/'}
+    # user logged in check
+    if 'username' in session:
+        return {'okey': True, 'username': escape(session['username'])}
+    else:
+        return {'okey': False}
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template('boards.html')
-
+    login_data = check_login()
+    return render_template('boards.html', login_data=login_data)
 
 @app.route("/boards/")
 def boards():
