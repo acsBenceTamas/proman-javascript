@@ -60,7 +60,7 @@ def logout():
 
 @app.route("/boards/")
 def boards():
-    return json.dumps(data_manager.get_all_boards_for_user(int(session.get("user", -1))))
+    return json.dumps(data_manager.get_all_boards_for_user(int(session.get("user_id", -1))))
 
 
 @app.route("/boards/<int:board_id>")
@@ -116,16 +116,16 @@ def cards_by_board_id(board_id):
     return json.dumps(False)
 
 
-@app.route("/cards/create", methods=["POST"])
+@app.route("/cards/create/", methods=["POST"])
 def create_new_card():
     return data_manager.create_new_card(request.form)
 
 
-@app.route("/boards/create", methods=["POST"])
+@app.route("/boards/create/", methods=["POST"])
 def create_new_board():
-    print(request.form)
-    # data_manager.create_new_board(request.form, session.get('user_id'))
-    return "done"
+    if security.check_text_validity(request.form['title']):
+        return json.dumps(data_manager.create_new_board(request.form, session.get('user_id')))
+    return json.dumps({'error': 'incorrect name'})
 
 
 @app.route("/test/")

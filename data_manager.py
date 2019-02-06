@@ -143,6 +143,10 @@ def create_new_card(cursor, card):
 
 @connection_handler
 def create_new_board(cursor, board, user_id):
+    print(repr(user_id))
+    print(board['public'])
+    if board['public'] == 'true':
+        user_id = -1
     cursor.execute(
         sql.SQL(
             """
@@ -152,7 +156,7 @@ def create_new_board(cursor, board, user_id):
             """
         ).format(
             title=sql.Literal(board['title']),
-            user_id=sql.Literal(user_id if not board['public'] else -1),
+            user_id=sql.Literal(user_id),
         )
     )
     return cursor.fetchone()

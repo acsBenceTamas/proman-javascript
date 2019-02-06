@@ -12,13 +12,13 @@
 </div>
 
 <div id="template-board" hidden>
-    <div class="card" style="margin-top: 15px;">
+    <div class="card board-card" id="template-board-main-card" style="margin-top: 15px;">
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
-                <span class="board-title">Title</span>
                 <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
                     ▼
                 </button>
+                <span class="board-title">Title</span>
                 <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
                 <button class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#edit-board">✎</button>
 
@@ -31,28 +31,28 @@
                     <div class="card-body">
                         <h3 class="card-title">New</h3>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush status status-id-1" data-status-id="1">
                     </ul>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">In progress</h3>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush status status-id-2" data-status-id="2">
                     </ul>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Testing</h3>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush status status-id-3" data-status-id="3">
                     </ul>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Done</h3>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush status status-id-4" data-status-id="4">
                     </ul>
                 </div>
             </div>

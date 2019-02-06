@@ -9,16 +9,16 @@
             </div>
             <div class="modal-body">
                 <form id="create-board-form">
-                    <input value = "board" type="hidden" name="type">
                     <div class="form-group">
                         <input name="title" type="text" class="form-control" id="board-title" placeholder="Title">
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="is-private">
-                            <label class="custom-control-label" for="is-private">Private board</label>
+                            <input type="checkbox" class="custom-control-input" id="board-is-public" name="is-public">
+                            <label class="custom-control-label" for="board-is-public">Public board</label>
                         </div>
                     </div>
+                    <div id="board-create-error"></div>
                     <button type="button" class="btn btn-success btn-block" id="send-board-button">CREATE</button>
                 </form>
             </div>
@@ -70,15 +70,15 @@
                         <input name="title" type="text" class="form-control" id="card-title" placeholder="Title" required>
                     </div>
                     <div class="form-group">
-                        <select class="custom-select">
-                          <option value="0" selected>Select status</option>
-                          <option value="0">New</option>
-                          <option value="1">In progress</option>
-                          <option value="2">Testing</option>
-                          <option value="3">Done</option>
+                        <select id="card-status" class="custom-select">
+                          <option value="1" selected>Select status</option>
+                          <option value="1">New</option>
+                          <option value="2">In progress</option>
+                          <option value="3">Testing</option>
+                          <option value="4">Done</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-success btn-block" id="send-card-button">CREATE</button>
+                    <button type="button" class="btn btn-success btn-block send-card-button" id="send-card-button">CREATE</button>
                 </form>
             </div>
         </div>
