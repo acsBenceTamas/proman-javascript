@@ -155,3 +155,4 @@ def create_new_board(cursor, board, user_id):
             user_id=sql.Literal(user_id if not board['public'] else -1),
         )
     )
+    return cursor.fetchone()
