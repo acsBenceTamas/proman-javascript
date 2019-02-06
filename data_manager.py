@@ -156,3 +156,24 @@ def create_new_board(cursor, board, user_id):
         )
     )
     return cursor.fetchone()
+
+@connection_handler
+def user_register(cursor, username, password):
+    cursor.execute("INSERT INTO users (username, password) VALUES (%(username)s, %(password)s) RETURNING *",{'username': username, 'password': password})
+    return cursor.fetchone()
+
+@connection_handler
+def get_user_by_name(cursor, username):
+    cursor.execute('SELECT * FROM users WHERE username=%s',(username,))
+    return cursor.fetchone()
+
+@connection_handler
+def get_usernames(cursor):
+    cursor.execute("SELECT username FROM users;")
+    users = cursor.fetchall()
+    return users
+
+@connection_handler
+def get_username(cursor, name):
+    cursor.execute('SELECT username FROM users WHERE username=%s',(name,))
+    return cursor.fetchone()

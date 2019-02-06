@@ -1,34 +1,61 @@
-from flask import Flask, render_template, session, request
-from functools import wraps
+from flask import Flask, render_template, session, escape, request, redirect
 import json
 import data_manager
+import security
 
 app = Flask(__name__)
-
-
 app.secret_key = "CTjad5+=513V@Cxa356+6LrDC#Y<23/5=_._@@&%/=seeZu3%4!"
 
 
-def need_login(**login_kwargs):
-    def decorator(server_function):
-        @wraps(server_function)
-        def wrapper(*args, **kwargs):
-            if session.get('user_id'):
-                if login_kwargs.get("user_id", -1):
-                    valid = True
-                else:
-                    return "Access Denied"
-                if valid:
-                    return server_function(*args, **kwargs)
-            else:
-                return "Requires Login"
-        return wrapper
-    return decorator
+def get_login_info():
+    if 'username' in session:
+        return {'okey': True, 'username': escape(session['username']), 'user_id': escape(session['user_id'])}
+    else:
+        return {'okey': False}
 
 
 @app.route("/")
 def index():
-    return render_template('boards.html')
+    login_data = get_login_info()
+    return render_template('boards.html', login_data=login_data)
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    if len(request.form['username']) == 0 or len(request.form['password']) == 0:
+        return json.dumps({'error': 'username or password is empty'})
+
+    if security.check_text_validity(request.form['username']):
+        if not security.check_password_validity(request.form['password']):
+            return json.dumps({'error': 'invalid character in password'})
+        if data_manager.get_username(request.form['username']):
+            return json.dumps({'error': 'username already exists'})
+
+        password = security.hash_password(request.form['password'])
+        user = data_manager.user_register(request.form['username'], password)
+        print(user)
+        session['username'] = user['username']
+        session['user_id'] = user['id']
+        return json.dumps({'redirect': True})
+    return json.dumps({'error': 'invalid character in username'})
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = data_manager.get_user_by_name(request.form['username'])
+    if user and security.verify_password(request.form['password'], user['password']):
+        session['username'] = request.form['username']
+        session['user_id'] = user['id']
+        return json.dumps({'redirect': True})
+    else:
+        return json.dumps({'error': 'username/password incorrect'})
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    session.pop('user_id')
+    return redirect('/')
 
 
 @app.route("/boards/")
