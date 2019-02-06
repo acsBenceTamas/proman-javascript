@@ -44,7 +44,7 @@ def register():
 def login():
     user = data_manager.get_user_by_name(request.form['username'])
     if user and security.verify_password(request.form['password'], user['password']):
-        session['username'] = request.form['username']
+        session['username'] = user['username']
         session['user_id'] = user['id']
         return json.dumps({'redirect': True})
     else:
