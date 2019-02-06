@@ -118,7 +118,7 @@ def cards_by_board_id(board_id):
 
 @app.route("/cards/create/", methods=["POST"])
 def create_new_card():
-    return data_manager.create_new_card(request.form)
+    return json.dumps(data_manager.create_new_card(request.form))
 
 
 @app.route("/boards/create/", methods=["POST"])

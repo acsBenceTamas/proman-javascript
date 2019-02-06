@@ -7,28 +7,30 @@ let dom = {
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-        console.log(boards);
         for(let board of boards){
             let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
             boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
             boardTemplateClone.id = 'board-id-'+board.id;
             document.getElementById('boards').appendChild(boardTemplateClone);
             boardTemplateClone.addEventListener('click', function (event) {
-                if(event.target.classList.contains('send-card-button')){
-                    console.log('B');
-                    const cardTitle = document.getElementById('card-title').value;
-                    const cardStatus = document.getElementById('card-status').value;
-                    dataHandler.createNewCard(cardTitle, board.id, cardStatus, 0, dom.addCardToWindow)
-                }
-            })
+                document.querySelector('#card-form-board-id').value = board.id;
+            });
+            dom.loadCards(board.id);
         }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        console.log('loadCards');
+        dataHandler.getCardsByBoardId(boardId, dom.showCards);
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        console.log('showCards');
+        for(let card of cards){
+            console.log('showCard');
+            dom.addCardToWindow(card);
+        }
     },
     appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
@@ -50,6 +52,7 @@ let dom = {
     addCardToWindow: function(card){
         //  <li class="list-group-item">Test 1</li>
         let newCard = document.createElement('li');
+        newCard.setAttribute('class', 'list-group-item');
         newCard.innerText = card.title;
         newCard.dataset.statusId = card.status_id;
         newCard.dataset.id = card.id;

@@ -176,5 +176,5 @@ def get_user_by_name(cursor, username):
 
 @connection_handler
 def get_username(cursor, username):
-    cursor.execute('SELECT username FROM users WHERE username)=%s', (username,))
+    cursor.execute('SELECT username FROM users WHERE username=%s', (username,))
     return cursor.fetchone()
