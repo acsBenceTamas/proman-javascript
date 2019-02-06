@@ -10,6 +10,29 @@ function init() {
         console.log('wut')
     });
 
+    document.getElementById("login-button").addEventListener('click', function () {
+        $.post('/login', $('#login-form').serialize(), function(data){
+            console.log(data);
+            if(data.redirect){
+                location.reload(true);
+            }
+            else{
+                dom.setFormError('user-login-error',data.error)
+            }
+        },'json')
+    });
+
+    document.getElementById("register-button").addEventListener('click', function () {
+        $.post('/register', $('#register-form').serialize(), function(data){
+            console.log(data);
+            if(data.redirect){
+                location.reload(true);
+            }
+            else{
+                dom.setFormError('user-register-error',data.error)
+            }
+        },'json')
+    });
 
 
 }
