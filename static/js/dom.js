@@ -43,4 +43,9 @@ let dom = {
             document.getElementById('board-title').setAttribute('class','form-control is-invalid');
         }
     }
+    
+    // setFormError: function (fieldId, errorCode) {
+    // document.getElementById(fieldId).setAttribute('class','form-control is-invalid');
+    //
+    // }
 };

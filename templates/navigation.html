@@ -14,7 +14,7 @@
         Signed in as <span class="text-success">{{ login_data['username'] }}</span>
     </div>
     <div class="form-inline">
-        <a href="{{ url_for('route_user_logout') }}"><button class="btn btn-outline-danger" type="button">✘</button></a>
+        <a href="{{ url_for('logout') }}"><button class="btn btn-outline-danger" type="button">✘</button></a>
     </div>
 {% else %}
     {% if not login_data['user'] %}
