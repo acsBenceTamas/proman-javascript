@@ -17,7 +17,7 @@ function init() {
                 location.reload(true);
             }
             else{
-                dom.setFormError('test',data.error)
+                dom.setFormError('user-login-error',data.error)
             }
         },'json')
     });
@@ -29,7 +29,7 @@ function init() {
                 location.reload(true);
             }
             else{
-                dom.setFormError('test',data.error)
+                dom.setFormError('user-register-error',data.error)
             }
         },'json')
     });

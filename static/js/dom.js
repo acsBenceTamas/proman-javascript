@@ -42,10 +42,10 @@ let dom = {
         }else{
             document.getElementById('board-title').setAttribute('class','form-control is-invalid');
         }
-    }
+    },
     
-    // setFormError: function (fieldId, errorCode) {
-    // document.getElementById(fieldId).setAttribute('class','form-control is-invalid');
-    //
-    // }
+    setFormError: function (fieldId, errorCode) {
+        document.getElementById(fieldId).setAttribute('class','text-capitalize alert alert-danger');
+        document.getElementById(fieldId).innerHTML = errorCode;
+    },
 };

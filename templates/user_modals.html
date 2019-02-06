@@ -9,13 +9,13 @@
             </div>
             <div class="modal-body">
                 <form id="login-form">
-                    <input value = "login" type="hidden" name="type">
                     <div class="form-group">
                         <input name="username" type="text" class="form-control" id="login-username" placeholder="Username" autocomplete="username">
                     </div>
                     <div class="form-group">
                         <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" autocomplete="current-password">
                     </div>
+                    <div id="user-login-error"></div>
                     <button type="button" class="btn btn-success btn-block" id="login-button">LOGIN</button>
                 </form>
             </div>
@@ -36,13 +36,13 @@
             </div>
             <div class="modal-body">
                 <form id="register-form">
-                    <input value = "register" type="hidden" name="type">
                     <div class="form-group">
                         <input name="username" type="text" class="form-control" id="register-username" placeholder="Username" autocomplete="username">
                     </div>
                     <div class="form-group">
                         <input name="password" type="password" class="form-control" id="register-password" placeholder="Password" autocomplete="current-password">
                     </div>
+                    <div id="user-register-error"></div>
                     <button type="button" class="btn btn-success btn-block" id="register-button">Create Account</button>
                 </form>
             </div>
