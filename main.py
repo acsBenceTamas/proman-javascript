@@ -105,12 +105,17 @@ def cards_by_id(card_id):
 
     return json.dumps(False)
 
+@app.route("/cards/update/", methods=['POST'])
+def cards_update():
+    data_manager.update_cards(json.loads(request.form['a']))
+    return json.dumps(True)
+
 
 @app.route("/board/<int:board_id>/cards/")
 def cards_by_board_id(board_id):
     board = data_manager.get_board_by_id(board_id)
     if board:
-        if board.get('user_id', -1) == session.get('user_id'):
+        if board.get('user_id') == session.get('user_id') or board.get('user_id') == -1:
             return json.dumps(data_manager.get_cards_by_board_id(board_id))
 
     return json.dumps(False)
@@ -130,7 +135,8 @@ def create_new_board():
 
 @app.route("/test/")
 def test():
-    pass
+    login_data = get_login_info()
+    return render_template('test.html', login_data=login_data)
 
 
 def main():

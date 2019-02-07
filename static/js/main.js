@@ -43,8 +43,9 @@ function init() {
         const cardStatus = document.getElementById('card-status').value;
         const boardId = document.getElementById('card-form-board-id').value;
         dataHandler.createNewCard(cardTitle, boardId, cardStatus, 0, dom.addCardToWindow)
-    })
+    });
 
+    dragulaHandler.init();
 }
 
 init();

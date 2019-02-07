@@ -11,26 +11,29 @@ let dom = {
             let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
             boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
             boardTemplateClone.id = 'board-id-'+board.id;
+            boardTemplateClone.dataset.id = board.id;
             document.getElementById('boards').appendChild(boardTemplateClone);
             boardTemplateClone.addEventListener('click', function (event) {
                 document.querySelector('#card-form-board-id').value = board.id;
             });
+            for(let dragulaStatusElement of document.querySelector('#board-id-'+board.id).querySelectorAll('.list-group-flush')){
+                dragulaHandler.addItem(dragulaStatusElement);
+            }
             dom.loadCards(board.id);
         }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        console.log('loadCards');
         dataHandler.getCardsByBoardId(boardId, dom.showCards);
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        console.log('showCards');
-        for(let card of cards){
-            console.log('showCard');
-            dom.addCardToWindow(card);
-        }
+        if(cards)
+            for(let card of cards){
+                console.log('showCard');
+                dom.addCardToWindow(card);
+            }
     },
     appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
@@ -69,16 +72,14 @@ let dom = {
             let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
             boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
             boardTemplateClone.id = 'board-id-'+board.id;
+            boardTemplateClone.dataset.id = board.id;
+            boardTemplateClone.addEventListener('click', function (event) {
+                document.querySelector('#card-form-board-id').value = board.id;
+            });
             document.getElementById('boards').appendChild(boardTemplateClone);
             document.getElementById('board-title').setAttribute('class','form-control is-valid');
             $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
-        }
-    },
-
-    addCardsToBoard: function (cards){
-        for(let card of cards){
-            let newListObject
         }
     },
     

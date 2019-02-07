@@ -161,6 +161,22 @@ def create_new_board(cursor, board, user_id):
     )
     return cursor.fetchone()
 
+@connection_handler
+def update_cards(cursor, form):
+    sql_string = []
+    for elem in form:
+        id = elem.pop('id')
+        set = ",".join(("=".join([pair[0], str(pair[1])]) for pair in elem.items()))
+        string = f'''
+        UPDATE cards
+        SET {set}
+        WHERE id = {id};
+        '''
+        sql_string.append(string)
+    cursor.execute(
+        " ".join(sql_string)
+    )
+
 
 @connection_handler
 def user_register(cursor, username, password):

@@ -18,6 +18,7 @@
         <script src="{{ url_for('static', filename='js/data_handler.js') }}" defer></script>
         <script src="{{ url_for('static', filename='js/dom.js') }}" defer></script>
         <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+        <script src="{{ url_for('static', filename='js/draKulaba.js') }}" defer></script>
     </head>
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
         {% include 'navigation.html' %}
@@ -48,7 +49,7 @@
                                 <div class="card-body">
                                     <h3 class="card-title">New</h3>
                                 </div>
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush ul-stuff">
                                     <li class="list-group-item">Test 1</li>
                                     <li class="list-group-item">Test 2</li>
                                     <li class="list-group-item">Test 3</li>
@@ -58,7 +59,7 @@
                                 <div class="card-body">
                                     <h3 class="card-title">In progress</h3>
                                 </div>
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush ul-stuff">
                                     <li class="list-group-item">Test 1</li>
                                     <li class="list-group-item">Test 2</li>
                                     <li class="list-group-item">Test 3</li>
@@ -68,7 +69,7 @@
                                 <div class="card-body">
                                     <h3 class="card-title">Testing</h3>
                                 </div>
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush ul-stuff">
                                     <li class="list-group-item">Test 1</li>
                                     <li class="list-group-item">Test 2</li>
                                     <li class="list-group-item">Test 3</li>
@@ -78,10 +79,54 @@
                                 <div class="card-body">
                                     <h3 class="card-title">Done</h3>
                                 </div>
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush ul-stuff">
                                     <li class="list-group-item">Test 1</li>
                                     <li class="list-group-item">Test 2</li>
                                     <li class="list-group-item">Test 3</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            Title
+                            <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
+                            <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
+                                ▼
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="card-body collapse show" aria-labelledby="headingOne" data-parent="#boards">
+                        <div class="card-deck">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">New</h3>
+                                </div>
+                                <ul class="list-group list-group-flush ul-stuff">
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">In progress</h3>
+                                </div>
+                                <ul class="list-group list-group-flush ul-stuff">
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Testing</h3>
+                                </div>
+                                <ul class="list-group list-group-flush ul-stuff">
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Done</h3>
+                                </div>
+                                <ul class="list-group list-group-flush ul-stuff">
                                 </ul>
                             </div>
                         </div>
