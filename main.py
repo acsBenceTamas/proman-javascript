@@ -110,6 +110,23 @@ def cards_update():
     data_manager.update_cards(json.loads(request.form['a']))
     return json.dumps(True)
 
+@app.route('/cards/delete/<int:card_id>')
+def card_delete(card_id):
+    card = data_manager.get_card_by_id(card_id)
+    board = data_manager.get_board_by_id(card['board_id'])
+    if board['user_id'] == session.get('user_id') or board['user_id'] == -1:
+        data_manager.delete_card(card_id)
+        return json.dumps(True)
+    return json.dumps(False)
+
+@app.route("/boards/delete/<int:board_id>")
+def board_delete(board_id):
+    board = data_manager.get_board_by_id(board_id)
+    if board['user_id'] == session.get('user_id') or board['user_id'] == -1:
+        data_manager.delete_board(board_id)
+        return json.dumps(True)
+    return json.dumps(False)
+
 
 @app.route("/board/<int:board_id>/cards/")
 def cards_by_board_id(board_id):
@@ -129,7 +146,7 @@ def create_new_card():
 @app.route("/boards/create/", methods=["POST"])
 def create_new_board():
     if security.check_text_validity(request.form['title']):
-        return json.dumps(data_manager.create_new_board(request.form, session.get('user_id')))
+        return json.dumps(data_manager.create_new_board(request.form, session.get('user_id',-1)))
     return json.dumps({'error': 'incorrect name'})
 
 

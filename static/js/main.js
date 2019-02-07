@@ -11,6 +11,8 @@ function init() {
         const isPublic = document.getElementById('board-is-public').checked;
         console.log(title, isPublic);
         dataHandler.createNewBoard(title,isPublic,dom.addBoardToWindow);
+        $('#create-board').modal('hide');
+        dom.removeFormError('board-create-error');
         // console.log($('#create-board-form'))
     });
 
@@ -43,6 +45,12 @@ function init() {
         const cardStatus = document.getElementById('card-status').value;
         const boardId = document.getElementById('card-form-board-id').value;
         dataHandler.createNewCard(cardTitle, boardId, cardStatus, 0, dom.addCardToWindow)
+    });
+
+    document.querySelector('#btn-delete-board-ok').addEventListener('click', function (event) {
+        const boardId = document.querySelector('#delete-board-confirmation').dataset.boardId;
+        $.get('/boards/delete/'+boardId);
+        document.querySelector('#board-id-'+boardId).remove();
     });
 
     dragulaHandler.init();

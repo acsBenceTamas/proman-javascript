@@ -68,6 +68,6 @@ let dataHandler = {
         )
             .then((response) =>response.json())
             .then((data) => callback(data))
-    }
+    },
     // here comes more features
 };

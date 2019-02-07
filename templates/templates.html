@@ -15,12 +15,21 @@
     <div class="card board-card" id="template-board-main-card" style="margin-top: 15px;">
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
-                <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
-                    ▼
-                </button>
-                <span class="board-title">Title</span>
-                <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
-                <button class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#edit-board">✎</button>
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
+                                ▼
+                            </button>
+                            <span class="board-title">Title</span>
+                            <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
+                        </td>
+                        <td class="text-right">
+{#                            <button class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#edit-board">✎</button>#}
+                            {% if login_data['username'] %}<button class="btn btn-outline-danger btn-board-delete" type="button">✘</button>{% endif %}
+                        </td>
+                    </tr>
+                </table>
 
             </h2>
         </div>
@@ -57,7 +66,7 @@
                 </div>
             </div>
             <div class="text-center" style="margin-top: 15px;margin-left: 0; margin-right: 0;">
-                <div class="card bg-primary border-danger">
+                <div class="card bg-primary border-danger card-trash ">
                     <h1 class="icons">🗑️</h1>
                 </div>
             </div>

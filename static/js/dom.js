@@ -8,17 +8,7 @@ let dom = {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
         for(let board of boards){
-            let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
-            boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
-            boardTemplateClone.id = 'board-id-'+board.id;
-            boardTemplateClone.dataset.id = board.id;
-            document.getElementById('boards').appendChild(boardTemplateClone);
-            boardTemplateClone.addEventListener('click', function (event) {
-                document.querySelector('#card-form-board-id').value = board.id;
-            });
-            for(let dragulaStatusElement of document.querySelector('#board-id-'+board.id).querySelectorAll('.list-group-flush')){
-                dragulaHandler.addItem(dragulaStatusElement);
-            }
+            dom.addBoardToWindow(board);
             dom.loadCards(board.id);
         }
     },
@@ -55,13 +45,14 @@ let dom = {
     addCardToWindow: function(card){
         //  <li class="list-group-item">Test 1</li>
         let newCard = document.createElement('li');
-        newCard.setAttribute('class', 'list-group-item');
+        newCard.setAttribute('class', 'list-group-item bg-dark');
         newCard.innerText = card.title;
         newCard.dataset.statusId = card.status_id;
         newCard.dataset.id = card.id;
         newCard.dataset.posistion = card.position;
         newCard.dataset.boardId = card.board_id;
         document.querySelector('#board-id-'+card.board_id+' .status-id-'+card.status_id).appendChild(newCard);
+        $('#create-card').modal('hide');
     },
 
     addBoardToWindow: function (board) {
@@ -73,13 +64,22 @@ let dom = {
             boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
             boardTemplateClone.id = 'board-id-'+board.id;
             boardTemplateClone.dataset.id = board.id;
+            if(document.querySelector('#user-data').dataset.userId){
+                boardTemplateClone.querySelector('.btn-board-delete').addEventListener('click', function (event) {
+                    document.querySelector('#delete-board-confirmation').dataset.boardId=board.id;
+                    document.querySelector('#delete-board-name').textContent = board.title;
+                    $('#delete-board-confirmation').modal('show');
+                });
+            }
             boardTemplateClone.addEventListener('click', function (event) {
                 document.querySelector('#card-form-board-id').value = board.id;
             });
             document.getElementById('boards').appendChild(boardTemplateClone);
             document.getElementById('board-title').setAttribute('class','form-control is-valid');
-            $('#create-board').modal('hide');
-            dom.removeFormError('board-create-error');
+            for(let dragulaStatusElement of document.querySelector('#board-id-'+board.id).querySelectorAll('.list-group-flush')){
+                dragulaHandler.addItem(dragulaStatusElement);
+            }
+            dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .card-trash'));
         }
     },
     

@@ -31,12 +31,16 @@
         </div>
 
         <div class="container">
-            <h1>ProMan <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-board">New board</button></h1>
+            <h1>
+                ProMan
+                {% if login_data['username'] %}<button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-board">New board</button>{% endif %}
+            </h1>
             <div class="accordion" id="boards">
             </div>
         </div>
         <div id="templates">
             {% include 'templates.html' %}
         </div>
+        <div id="user-data" data-username="{{ login_data['username'] }}" data-user-id="{{ login_data['user_id'] }}"></div>
     </body>
 </html>
