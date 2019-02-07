@@ -44,15 +44,22 @@ let dom = {
 
     addCardToWindow: function(card){
         //  <li class="list-group-item">Test 1</li>
-        let newCard = document.createElement('li');
-        newCard.setAttribute('class', 'list-group-item bg-dark');
-        newCard.innerText = card.title;
-        newCard.dataset.statusId = card.status_id;
-        newCard.dataset.id = card.id;
-        newCard.dataset.posistion = card.position;
-        newCard.dataset.boardId = card.board_id;
-        document.querySelector('#board-id-'+card.board_id+' .status-id-'+card.status_id).appendChild(newCard);
-        $('#create-card').modal('hide');
+        if(card.error){
+            document.getElementById('card-title').setAttribute('class','form-control is-invalid');
+            dom.setFormError('card-create-error', card.error);
+        }else{
+            let newCard = document.createElement('li');
+            newCard.setAttribute('class', 'list-group-item bg-dark');
+            newCard.innerText = card.title;
+            newCard.dataset.statusId = card.status_id;
+            newCard.dataset.id = card.id;
+            newCard.dataset.posistion = card.position;
+            newCard.dataset.boardId = card.board_id;
+            document.querySelector('#board-id-'+card.board_id+' .status-id-'+card.status_id).appendChild(newCard);
+            document.getElementById('card-title').setAttribute('class','form-control is-valid');
+            dom.removeFormError('card-create-error');
+            $('#create-card').modal('hide');
+        }
     },
 
     addBoardToWindow: function (board) {
@@ -80,6 +87,9 @@ let dom = {
                 dragulaHandler.addItem(dragulaStatusElement);
             }
             dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .card-trash'));
+
+            $('#create-board').modal('hide');
+            dom.removeFormError('board-create-error');
         }
     },
     

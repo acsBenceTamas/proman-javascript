@@ -140,12 +140,14 @@ def cards_by_board_id(board_id):
 
 @app.route("/cards/create/", methods=["POST"])
 def create_new_card():
-    return json.dumps(data_manager.create_new_card(request.form))
+    if security.check_text_validity(request.form['title'], extra_characters=' '):
+        return json.dumps(data_manager.create_new_card(request.form))
+    return json.dumps({'error': 'incorrect name'})
 
 
 @app.route("/boards/create/", methods=["POST"])
 def create_new_board():
-    if security.check_text_validity(request.form['title']):
+    if security.check_text_validity(request.form['title'], extra_characters=' '):
         return json.dumps(data_manager.create_new_board(request.form, session.get('user_id',-1)))
     return json.dumps({'error': 'incorrect name'})
 

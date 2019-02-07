@@ -15,8 +15,8 @@ def verify_password(plain_text_password, hashed_password):
         return False
 
 
-def check_text_validity(text, max_length=32):
-    allowed = set(string.ascii_lowercase + string.digits + '_')
+def check_text_validity(text, max_length=32, extra_characters=''):
+    allowed = set(string.ascii_lowercase + string.digits + '_' + extra_characters)
     return set(text.lower()) <= allowed and text and len(text) <= max_length
 
 

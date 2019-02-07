@@ -11,8 +11,6 @@ function init() {
         const isPublic = document.getElementById('board-is-public').checked;
         console.log(title, isPublic);
         dataHandler.createNewBoard(title,isPublic,dom.addBoardToWindow);
-        $('#create-board').modal('hide');
-        dom.removeFormError('board-create-error');
         // console.log($('#create-board-form'))
     });
 
