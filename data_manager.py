@@ -184,7 +184,7 @@ def toggle_archived_state_for_card(cursor, card_id):
         sql.SQL(
             """
             UPDATE cards
-            SET archived = !archived
+            SET archived = NOT(archived)
             WHERE id = {card_id}
             """
         ).format(card_id=sql.Literal(card_id))

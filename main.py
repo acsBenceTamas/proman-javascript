@@ -152,12 +152,15 @@ def create_new_board():
     return json.dumps({'error': 'incorrect name'})
 
 
-@app.route("/cards/<int:card_id>/archive/")
+@app.route("/cards/archive/<int:card_id>/")
 def archive_card(card_id):
-    card_user_id = data_manager.get_card_by_id(card_id).get('user_id')
-    if not card_user_id:
+    print('Archiving',card_id)
+    card = data_manager.get_card_by_id(card_id)
+    board = data_manager.get_board_by_id(card.get('board_id'))
+    print(board)
+    if not board.get('user_id'):
         return json.dumps({'error': 'card not found'})
-    if card_user_id == session["user_id"] or card_user_id == -1:
+    if board.get('user_id') == session["user_id"] or board.get('user_id') == -1:
         data_manager.toggle_archived_state_for_card(card_id)
         return json.dumps(True)
     return json.dumps({'error': 'invalid user'})

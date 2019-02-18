@@ -3,10 +3,13 @@ let dragulaHandler = {
         let dragulaElements = [...document.querySelectorAll('.list-group-flush')];
         dragulaHandler.dragAndDrop = dragula(dragulaElements,{accepts: dragulaHandler.checkValidTarget, moves: dragulaHandler.checkIfMoveAble, revertOnSpill: true});
         dragulaHandler.dragAndDrop.on('drop',function (el, target, source, sibling) {
-            if(target.classList.contains('card-trash')){
+            if (target.classList.contains('card-trash')) {
                 $.get('/cards/delete/'+el.dataset.id);
                 el.remove();
-            }else{
+            } else if (target.classList.contains('archive-card-field')) {
+                $.get('/cards/archive/'+el.dataset.id);
+                el.remove();
+            } else {
                 let cardsToChange = [];
                 for(let i=0; source.children.length>i; i++){
                     cardsToChange.push({id: source.children[i].dataset.id, position: i});

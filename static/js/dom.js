@@ -47,7 +47,7 @@ let dom = {
         if(card.error){
             document.getElementById('card-title').setAttribute('class','form-control is-invalid');
             dom.setFormError('card-create-error', card.error);
-        }else{
+        }else if (card.archived === false) {
             let newCard = document.createElement('li');
             newCard.setAttribute('class', 'list-group-item bg-dark');
             newCard.innerText = card.title;
@@ -87,6 +87,7 @@ let dom = {
                 dragulaHandler.addItem(dragulaStatusElement);
             }
             dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .card-trash'));
+            dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .archive-card-field'));
 
             $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
