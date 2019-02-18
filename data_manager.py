@@ -177,6 +177,20 @@ def update_cards(cursor, form):
         " ".join(sql_string)
     )
 
+
+@connection_handler
+def toggle_archived_state_for_card(cursor, card_id):
+    cursor.execute(
+        sql.SQL(
+            """
+            UPDATE cards
+            SET archived = !archived
+            WHERE id = {card_id}
+            """
+        ).format(card_id=sql.Literal(card_id))
+    )
+
+
 @connection_handler
 def delete_card(cursor, card_id):
     cursor.execute("DELETE FROM cards WHERE id=%s",(card_id,))

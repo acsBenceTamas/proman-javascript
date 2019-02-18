@@ -21,6 +21,18 @@
     border-top: 1px black solid;
 }
 
-.card-trash .gu-transit{
+.card-trash .gu-transit {
     display: none;
+}
+
+.archive-card-field .gu-transit {
+    display: none;
+}
+
+.archive-card-field {
+    margin: 5px 0;
+}
+
+.card-trash {
+    margin: 5px 0;
 }
