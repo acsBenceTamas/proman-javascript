@@ -6,12 +6,10 @@ function init() {
     dom.loadBoards();
 
     document.getElementById("send-board-button").addEventListener('click',function () {
-        // dom.addBoardToWindow($('#create-board-form').serializeArray()[1]['value']);
         const title = document.getElementById('board-title').value;
         const isPublic = document.getElementById('board-is-public').checked;
         console.log(title, isPublic);
         dataHandler.createNewBoard(title,isPublic,dom.addBoardToWindow);
-        // console.log($('#create-board-form'))
     });
 
     document.getElementById("login-button").addEventListener('click', function () {
