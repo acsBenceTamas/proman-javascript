@@ -1,0 +1,107 @@
+<div class="modal fade" id="create-board" tabindex="-1" role="dialog" aria-labelledby="create-board-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create-board-label">Create board</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form id="create-board-form">
+                    <div class="form-group">
+                        <input name="title" type="text" class="form-control" id="board-title" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="board-is-public" name="is-public">
+                            <label class="custom-control-label" for="board-is-public">Public board</label>
+                        </div>
+                    </div>
+                    <div id="board-create-error"></div>
+                    <button type="button" class="btn btn-success btn-block" id="send-board-button">CREATE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-board" tabindex="-1" role="dialog" aria-labelledby="edit-board-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-board-label">Create board</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-board-form">
+                    <input value = "board" type="hidden" name="type">
+                    <div class="form-group">
+                        <input name="title" type="text" class="form-control" id="edit-board-title" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="edit-is-private">
+                            <label class="custom-control-label" for="edit-is-private">Private board</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-block" id="send-board-edit-button">CREATE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-board-confirmation" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete board</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <span class="text-info" id="delete-board-name">%</span>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-delete-board-ok" class="btn btn-danger" data-dismiss="modal">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="create-card" tabindex="-1" role="dialog" aria-labelledby="create-card-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create-board-label">Create card</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form id="create-card-form">
+                    <input value = "x" type="hidden" id="card-form-board-id" name="data">
+                    <div class="form-group">
+                        <input name="title" type="text" class="form-control" id="card-title" placeholder="Title" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="card-status" class="custom-select">
+                          <option value="1" selected>Select status</option>
+                          <option value="1">New</option>
+                          <option value="2">In progress</option>
+                          <option value="3">Testing</option>
+                          <option value="4">Done</option>
+                        </select>
+                    </div>
+                    <div id="card-create-error"></div>
+                    <button type="button" class="btn btn-success btn-block send-card-button" id="send-card-button">CREATE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
