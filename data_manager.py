@@ -186,6 +186,11 @@ def delete_board(cursor, board_id):
     cursor.execute("DELETE FROM boards WHERE id=%s",(board_id,))
 
 @connection_handler
+def rename_board(cursor, board_id, board_title):
+    cursor.execute("UPDATE boards SET title = %s WHERE id=%s;",(board_title,board_id))
+    return True
+
+@connection_handler
 def user_register(cursor, username, password):
     cursor.execute("INSERT INTO users (username, password) VALUES (%(username)s, %(password)s) RETURNING *",{'username': username, 'password': password})
     return cursor.fetchone()

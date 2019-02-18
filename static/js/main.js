@@ -8,13 +8,11 @@ function init() {
     document.getElementById("send-board-button").addEventListener('click',function () {
         const title = document.getElementById('board-title').value;
         const isPublic = document.getElementById('board-is-public').checked;
-        console.log(title, isPublic);
         dataHandler.createNewBoard(title,isPublic,dom.addBoardToWindow);
     });
 
     document.getElementById("login-button").addEventListener('click', function () {
         $.post('/login', $('#login-form').serialize(), function(data){
-            console.log(data);
             if(data.redirect){
                 location.reload(true);
             }
@@ -26,7 +24,6 @@ function init() {
 
     document.getElementById("register-button").addEventListener('click', function () {
         $.post('/register', $('#register-form').serialize(), function(data){
-            console.log(data);
             if(data.redirect){
                 location.reload(true);
             }

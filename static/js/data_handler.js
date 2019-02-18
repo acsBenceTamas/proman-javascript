@@ -69,5 +69,15 @@ let dataHandler = {
             .then((response) =>response.json())
             .then((data) => callback(data))
     },
+    renameBoard: function (boardId, newTitle) {
+        $.post('/boards/rename/', {board_id: boardId, new_title: newTitle}, function (data) {
+            data = JSON.parse(data);
+            if(data){
+                document.querySelector('#board-title-input-'+boardId).dataset.title = newTitle;
+            }else{
+                document.querySelector('#board-title-input-'+boardId).value = document.querySelector('#board-title-input-'+boardId).dataset.title;
+            }
+        });
+    }
     // here comes more features
 };

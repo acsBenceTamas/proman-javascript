@@ -127,6 +127,16 @@ def board_delete(board_id):
         return json.dumps(True)
     return json.dumps(False)
 
+@app.route("/boards/rename/", methods=['POST'])
+def board_rename():
+    print(request.form)
+    board = data_manager.get_board_by_id(request.form['board_id'])
+    if session['user_id'] == board['user_id'] or board['user_id'] == -1:
+        if security.check_text_validity(request.form['new_title'], extra_characters=" "):
+            return json.dumps(data_manager.rename_board(request.form['board_id'], request.form['new_title']))
+        return json.dumps(False)
+    return json.dumps(False)
+
 
 @app.route("/board/<int:board_id>/cards/")
 def cards_by_board_id(board_id):

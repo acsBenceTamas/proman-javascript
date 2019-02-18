@@ -68,7 +68,9 @@ let dom = {
             dom.setFormError('board-create-error', board.error);
         } else{
             let boardTemplateClone = document.getElementById('template-board').getElementsByClassName('card')[0].cloneNode(true);
-            boardTemplateClone.getElementsByClassName('board-title')[0].textContent = board.title;
+            boardTemplateClone.getElementsByClassName('board-title')[0].value = board.title;
+            boardTemplateClone.getElementsByClassName('board-title')[0].dataset.title = board.title;
+            boardTemplateClone.getElementsByClassName('board-title')[0].id = 'board-title-input-'+board.id;
             boardTemplateClone.id = 'board-id-'+board.id;
             boardTemplateClone.dataset.id = board.id;
             if(document.querySelector('#user-data').dataset.userId){
@@ -90,6 +92,10 @@ let dom = {
 
             $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
+
+            $('#board-title-input-'+board.id).blur(function (event) {
+                dataHandler.renameBoard(board.id, event.target.value);
+            })
         }
     },
     
