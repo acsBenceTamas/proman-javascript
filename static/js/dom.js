@@ -9,7 +9,7 @@ let dom = {
         // it adds necessary event listeners also
         for(let board of boards){
             dom.addBoardToWindow(board);
-            dom.loadCards(board.id);
+            dom.loadStatuses(board.id);
         }
     },
     loadCards: function (boardId) {
@@ -21,9 +21,11 @@ let dom = {
         // it adds necessary event listeners also
         if(cards)
             for(let card of cards){
-                console.log('showCard');
                 dom.addCardToWindow(card);
             }
+    },
+    loadStatuses: function (boardId) {
+        dataHandler.getStatusesByBoardId(boardId)
     },
     appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
@@ -82,6 +84,7 @@ let dom = {
             }
             boardTemplateClone.addEventListener('click', function (event) {
                 document.querySelector('#card-form-board-id').value = board.id;
+                document.querySelector('#status-form-board-id').value = board.id;
             });
             document.getElementById('boards').appendChild(boardTemplateClone);
             document.getElementById('board-title').setAttribute('class','form-control is-valid');
@@ -97,6 +100,38 @@ let dom = {
                 dataHandler.renameBoard(board.id, event.target.value);
             })
         }
+    },
+
+    addStatusToBoard: function (boardId, statusName, statusId) {
+        let cardDecksSpace = document.querySelector('#board-id-'+boardId).querySelector('.card-deck-space');
+        if(cardDecksSpace.children.length === 0){
+                let newCardDeck = document.createElement('div');
+                newCardDeck.setAttribute('class', 'card-deck');
+                cardDecksSpace.appendChild(newCardDeck);
+        }
+        let cardDecks = [];
+        for(let cNode of cardDecksSpace.childNodes)
+            if(cNode.tagName === 'DIV')
+                cardDecks.push(cNode);
+        if(cardDecks[cardDecks.length-1].children.length < 4 || cardDecks[0].children.length < 4){
+            let newStatus = document.querySelector('#template-status').getElementsByClassName('card')[0].cloneNode(true);
+            newStatus.querySelector('.list-group').dataset.statusId = statusId;
+            newStatus.querySelector('.list-group').classList.add('status-id-'+statusId);
+            newStatus.querySelector('.card-title').textContent = statusName;
+
+            cardDecks[cardDecks.length-1].appendChild(newStatus);
+        }else{
+            let newCardDeck = document.createElement('div');
+            newCardDeck.setAttribute('class', 'card-deck mt-3');
+
+            let newStatus = document.querySelector('#template-status').getElementsByClassName('card')[0].cloneNode(true);
+            newStatus.querySelector('.list-group').dataset.statusId = statusId;
+            newStatus.querySelector('.list-group').classList.add('status-id-'+statusId);
+            newStatus.querySelector('.card-title').textContent = statusName;
+
+            cardDecksSpace.appendChild(newCardDeck).appendChild(newStatus);
+        }
+        dragulaHandler.addItem(document.querySelector('#board-id-'+boardId+' .status-id-'+statusId));
     },
     
     setFormError: function (fieldId, errorCode) {

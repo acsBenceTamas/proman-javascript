@@ -76,6 +76,10 @@ def board_by_id(board_id):
 def statuses():
     return json.dumps(data_manager.get_all_statuses())
 
+@app.route("/statuses/create/", methods=['POST'])
+def statuses_create():
+    return json.dumps(data_manager.add_status(request.form))
+
 
 @app.route("/boards/<int:board_id>/statuses/")
 def statuses_for_board(board_id):

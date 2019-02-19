@@ -30,6 +30,18 @@ let dataHandler = {
             .then((response) => response.json())
             .then((data) => callback(data))
     },
+    getStatusesByBoardId: function (boardId) {
+        $.get('/boards/'+boardId+'/statuses/', function (data) {
+            data = JSON.parse(data);
+            if(data){
+                for(let status of data){
+                    dom.addStatusToBoard(boardId, status.name, status.id);
+                }
+                dom.loadCards(boardId);
+            }
+
+        });
+    },
     getStatus: function (statusId, callback) {
         fetch(`/status/${statusId}`)
             .then((response) => response.json())
@@ -68,6 +80,17 @@ let dataHandler = {
         )
             .then((response) =>response.json())
             .then((data) => callback(data))
+    },
+    createNewStatus: function (statusName, boardId, callback) {
+        let form = new FormData();
+        form.set("name", statusName);
+        form.set("board_id", boardId);
+        fetch('/statuses/create/',
+            {method: 'POST',
+                body: form}
+        )
+            .then((response) =>response.json())
+            .then((data) => callback(boardId, statusName, data))
     },
     renameBoard: function (boardId, newTitle) {
         $.post('/boards/rename/', {board_id: boardId, new_title: newTitle}, function (data) {

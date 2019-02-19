@@ -33,14 +33,20 @@ def get_statuses_for_board(cursor, board_id):
     cursor.execute(
         sql.SQL(
             """
-            SELECT statuses.* FROM 
-            boards JOIN boards_statuses ON boards.id = boards_statuses.board_id
-            JOIN statuses on boards_statuses.status_id = statuses.id
-            WHERE boards.id = {board_id}
+            SELECT * FROM 
+            statuses
+            WHERE board_id = {board_id}
+            ORDER BY id;
             """
         ).format(board_id=sql.Literal(board_id))
     )
     return cursor.fetchall()
+
+
+@connection_handler
+def add_status(cursor,form):
+    cursor.execute('INSERT INTO statuses (name, board_id) VALUES (%s, %s) RETURNING id;',(form['name'],form['board_id']))
+    return cursor.fetchone()['id']
 
 
 @connection_handler

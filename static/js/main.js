@@ -40,12 +40,33 @@ function init() {
         dataHandler.createNewCard(cardTitle, boardId, cardStatus, 0, dom.addCardToWindow)
     });
 
+    document.querySelector('#send-status-button').addEventListener('click',function () {
+        const statusName = document.getElementById('status-title').value;
+        const boardId = document.getElementById('status-form-board-id').value;
+        dataHandler.createNewStatus(statusName, boardId, dom.addStatusToBoard)
+    });
+
     document.querySelector('#btn-delete-board-ok').addEventListener('click', function (event) {
         const boardId = document.querySelector('#delete-board-confirmation').dataset.boardId;
         $.get('/boards/delete/'+boardId);
         document.querySelector('#board-id-'+boardId).remove();
     });
 
+    $('#create-card').on('shown.bs.modal', function () {
+        let select = document.querySelector('#card-status');
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+        $.get('/boards/'+document.querySelector('#card-form-board-id').value+'/statuses/', function (data) {
+            let statuses = JSON.parse(data);
+            for(let status of statuses){
+                let newOption = document.createElement('option');
+                newOption.textContent = status.name;
+                newOption.value = status.id;
+                select.appendChild(newOption);
+            }
+        })
+    });
     dragulaHandler.init();
 }
 

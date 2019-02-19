@@ -21,6 +21,7 @@
                             <button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;">
                                 ▼
                             </button>
+                            <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-status">New status</button>
                             <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#create-card">New card</button>
                             <input type="text" class="board-title h1 border-0 bg-transparent mb-0 align-bottom ml-1" data-title="Title" value="Title">
                         </td>
@@ -34,35 +35,7 @@
         </div>
 
         <div id="collapseOne" class="card-body collapse show" aria-labelledby="headingOne" data-parent="#boards">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">New</h3>
-                    </div>
-                    <ul class="list-group list-group-flush status status-id-1 ul-stuff" data-status-id="1">
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">In progress</h3>
-                    </div>
-                    <ul class="list-group list-group-flush status status-id-2 ul-stuff" data-status-id="2">
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Testing</h3>
-                    </div>
-                    <ul class="list-group list-group-flush status status-id-3 ul-stuff" data-status-id="3">
-                    </ul>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Done</h3>
-                    </div>
-                    <ul class="list-group list-group-flush status status-id-4 ul-stuff" data-status-id="4">
-                    </ul>
-                </div>
+            <div class="card-deck-space">
             </div>
             <div class="text-center" style="margin-top: 15px;margin-left: 0; margin-right: 0;">
                 <div class="card bg-primary border-danger card-trash ">
@@ -70,5 +43,15 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="template-status" hidden>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Template</h3>
+        </div>
+        <ul class="list-group list-group-flush status ul-stuff" data-status-id="1">
+        </ul>
     </div>
 </div>
