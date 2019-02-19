@@ -21,7 +21,6 @@ let dom = {
         // it adds necessary event listeners also
         if(cards)
             for(let card of cards){
-                console.log('showCard');
                 dom.addCardToWindow(card);
             }
     },
@@ -79,18 +78,13 @@ let dom = {
                 });
             }
             boardTemplateClone.querySelector('.archive-card-field').addEventListener('click', function (event) {
-                console.log('archives requested');
                 $.get(`/cards/archive/board/${board.id}/`, function (data) {
                     data = JSON.parse(data);
-                    console.log(data);
                     let listContainer = document.querySelector('#archived-cards-list');
-                    console.log('archives returned');
                     if (data) {
-                        console.log('yes cards');
                         listContainer.textContent = "";
                         dom.generateArchivedCardList(data, listContainer);
                     } else {
-                        console.log("no cards");
                         listContainer.textContent = "No archived cards for this board.";
                     }
                     $('#archived-cards').modal('show');
