@@ -49,6 +49,19 @@ function init() {
         document.querySelector('#board-id-'+boardId).remove();
     });
 
+    document.querySelector('#archived-cards-list').addEventListener('click', function (event) {
+        console.log(event.target.tagName);
+        if (event.target.tagName === 'BUTTON') {
+            $.get(`/cards/archive/${event.target.dataset.cardId}/`, function (data) {
+                let card = JSON.parse(data);
+                if (!data.error) {
+                    event.target.closest('li').remove();
+                    dom.addCardToWindow(card);
+                }
+            })
+        }
+    });
+
     dragulaHandler.init();
 }
 

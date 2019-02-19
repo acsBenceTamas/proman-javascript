@@ -78,6 +78,24 @@ let dom = {
                     $('#delete-board-confirmation').modal('show');
                 });
             }
+            boardTemplateClone.querySelector('.archive-card-field').addEventListener('click', function (event) {
+                console.log('archives requested');
+                $.get(`/cards/archive/board/${board.id}/`, function (data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    let listContainer = document.querySelector('#archived-cards-list');
+                    console.log('archives returned');
+                    if (data) {
+                        console.log('yes cards');
+                        listContainer.textContent = "";
+                        dom.generateArchivedCardList(data, listContainer);
+                    } else {
+                        console.log("no cards");
+                        listContainer.textContent = "No archived cards for this board.";
+                    }
+                    $('#archived-cards').modal('show');
+                })
+            });
             boardTemplateClone.addEventListener('click', function (event) {
                 document.querySelector('#card-form-board-id').value = board.id;
             });
@@ -103,5 +121,18 @@ let dom = {
         document.getElementById(fieldId).setAttribute('class','');
         document.getElementById(fieldId).innerHTML = '';
 
-    }
+    },
+
+    generateArchivedCardList: function (cards, listContainer) {
+        let list = listContainer.querySelector('ul');
+        if (list) list.remove();
+        list = document.createElement('ul');
+        for (let card of cards) {
+            row = document.createElement('li');
+            row.innerHTML=
+                `<button class="btn btn-success" data-card-id="${card.id}">Unarchive Card</button> ${card.title}`;
+            list.appendChild(row);
+        }
+        listContainer.appendChild(list)
+    },
 };
