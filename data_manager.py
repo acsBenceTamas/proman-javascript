@@ -227,6 +227,17 @@ def rename_board(cursor, board_id, board_title):
     return True
 
 @connection_handler
+def rename_status(cursor, status_id, status_name):
+    cursor.execute("UPDATE statuses SET name = %s WHERE id=%s;", (status_name, status_id))
+    return True
+
+@connection_handler
+def rename_card(cursor, card_id, card_title):
+    print(card_id)
+    cursor.execute("UPDATE cards SET title = %s WHERE id=%s;",(card_title, card_id))
+    return True
+
+@connection_handler
 def user_register(cursor, username, password):
     cursor.execute("INSERT INTO users (username, password) VALUES (%(username)s, %(password)s) RETURNING *",{'username': username, 'password': password})
     return cursor.fetchone()
