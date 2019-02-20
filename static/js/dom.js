@@ -52,7 +52,8 @@ let dom = {
         }else{
             let newCard = document.createElement('li');
             newCard.setAttribute('class', 'list-group-item bg-dark');
-            newCard.innerText = card.title;
+            newCard.innerHTML =`<p class="text-secondary border-0 bg-transparent align-bottom mb-0">${card.title}</p>`;
+            newCard.id = 'card-id-'+card.id;
             newCard.dataset.statusId = card.status_id;
             newCard.dataset.id = card.id;
             newCard.dataset.posistion = card.position;
@@ -61,6 +62,26 @@ let dom = {
             document.getElementById('card-title').setAttribute('class','form-control is-valid');
             dom.removeFormError('card-create-error');
             $('#create-card').modal('hide');
+
+            let cardEditElement = document.querySelector('#card-id-'+card.id);
+            cardEditElement.dataset.title = card.title;
+            cardEditElement.addEventListener('click', function (event) {
+                if(event.target.tagName === 'P'){
+                    let titleForEdit = cardEditElement.firstElementChild.textContent;
+                    cardEditElement.firstElementChild.remove();
+
+                    let newEditableCard = document.createElement('input');
+                    newEditableCard.setAttribute('class', 'text-secondary w-100 border-0 bg-transparent align-bottom');
+                    newEditableCard.value = titleForEdit;
+                    newEditableCard.id = 'current-edit';
+                    cardEditElement.appendChild(newEditableCard).focus();
+                    $('#current-edit').blur(function (event) {
+                        let titleForEdit = cardEditElement.firstElementChild.value;
+                        console.log('test');
+                        dataHandler.renameCard(card.id, card.board_id, titleForEdit);
+                    });
+                }
+            });
         }
     },
 
@@ -104,34 +125,82 @@ let dom = {
 
     addStatusToBoard: function (boardId, statusName, statusId) {
         let cardDecksSpace = document.querySelector('#board-id-'+boardId).querySelector('.card-deck-space');
-        if(cardDecksSpace.children.length === 0){
-                let newCardDeck = document.createElement('div');
-                newCardDeck.setAttribute('class', 'card-deck');
-                cardDecksSpace.appendChild(newCardDeck);
-        }
         let cardDecks = [];
         for(let cNode of cardDecksSpace.childNodes)
             if(cNode.tagName === 'DIV')
                 cardDecks.push(cNode);
-        if(cardDecks[cardDecks.length-1].children.length < 4 || cardDecks[0].children.length < 4){
-            let newStatus = document.querySelector('#template-status').getElementsByClassName('card')[0].cloneNode(true);
-            newStatus.querySelector('.list-group').dataset.statusId = statusId;
-            newStatus.querySelector('.list-group').classList.add('status-id-'+statusId);
-            newStatus.querySelector('.card-title').textContent = statusName;
 
+        let newStatus = document.querySelector('#template-status').getElementsByClassName('card')[0].cloneNode(true);
+        newStatus.querySelector('.list-group').dataset.statusId = statusId;
+        newStatus.querySelector('.list-group').id = 'status-id-'+statusId;
+        newStatus.querySelector('.list-group').classList.add('status-id-'+statusId);
+        newStatus.querySelector('.card-title').textContent = statusName;
+        newStatus.querySelector('.card-body').id = 'status-name-id-'+statusId;
+        newStatus.querySelector('.card-body').dataset.name = statusName;
+
+        if(cardDecks[cardDecks.length-1].children.length < 4 || cardDecks[0].children.length < 4){
             cardDecks[cardDecks.length-1].appendChild(newStatus);
         }else{
             let newCardDeck = document.createElement('div');
             newCardDeck.setAttribute('class', 'card-deck mt-3');
-
-            let newStatus = document.querySelector('#template-status').getElementsByClassName('card')[0].cloneNode(true);
-            newStatus.querySelector('.list-group').dataset.statusId = statusId;
-            newStatus.querySelector('.list-group').classList.add('status-id-'+statusId);
-            newStatus.querySelector('.card-title').textContent = statusName;
-
             cardDecksSpace.appendChild(newCardDeck).appendChild(newStatus);
         }
         dragulaHandler.addItem(document.querySelector('#board-id-'+boardId+' .status-id-'+statusId));
+
+        let statusEditElement = document.querySelector('#status-name-id-'+statusId);
+        statusEditElement.addEventListener('click', function (event) {
+            if(event.target.tagName === 'H3'){
+                let nameForEdit = statusEditElement.firstElementChild.textContent;
+                statusEditElement.firstElementChild.remove();
+
+                let newEditableStatus = document.createElement('input');
+                newEditableStatus.setAttribute('class', 'card-title h3 border-0 bg-transparent align-bottom status-title');
+                newEditableStatus.value = nameForEdit;
+                newEditableStatus.id = 'current-edit';
+                statusEditElement.appendChild(newEditableStatus).focus();
+                $('#current-edit').blur(function (event) {
+                    let nameForEdit = statusEditElement.firstElementChild.value;
+
+                    dataHandler.renameStatus(statusId, boardId, nameForEdit);
+                });
+            }
+        });
+    },
+
+    renameStatus: function (changeOk, statusId){
+        let statusEditElement = document.querySelector('#status-name-id-'+statusId);
+        let newName = statusEditElement.firstElementChild.value;
+        statusEditElement.firstElementChild.remove();
+        if(changeOk){
+            statusEditElement.dataset.name = newName;
+            let newEditableStatus = document.createElement('h3');
+            newEditableStatus.setAttribute('class', 'card-title h3');
+            newEditableStatus.textContent = newName;
+            statusEditElement.appendChild(newEditableStatus);
+        }else{
+            let newEditableStatus = document.createElement('h3');
+            newEditableStatus.setAttribute('class', 'card-title h3');
+            newEditableStatus.textContent = statusEditElement.dataset.name;
+            statusEditElement.appendChild(newEditableStatus);
+        }
+    },
+
+    renameCard: function (changeOk, cardId){
+        let cardEditElement = document.querySelector('#card-id-'+cardId);
+        let newTitle = cardEditElement.firstElementChild.value;
+        cardEditElement.firstElementChild.remove();
+        if(changeOk){
+            cardEditElement.dataset.title = newTitle;
+            let newEditableStatus = document.createElement('p');
+            newEditableStatus.setAttribute('class', 'text-secondary border-0 bg-transparent align-bottom mb-0');
+            newEditableStatus.textContent = newTitle;
+            cardEditElement.appendChild(newEditableStatus);
+        }else{
+            let newEditableStatus = document.createElement('p');
+            newEditableStatus.setAttribute('class', 'text-secondary border-0 bg-transparent align-bottom mb-0');
+            newEditableStatus.textContent = cardEditElement.dataset.title;
+            cardEditElement.appendChild(newEditableStatus);
+        }
     },
     
     setFormError: function (fieldId, errorCode) {

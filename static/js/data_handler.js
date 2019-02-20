@@ -101,6 +101,18 @@ let dataHandler = {
                 document.querySelector('#board-title-input-'+boardId).value = document.querySelector('#board-title-input-'+boardId).dataset.title;
             }
         });
-    }
+    },
+    renameStatus: function (statusId, boardId, newName) {
+        $.post('/statuses/rename/', {status_id: statusId, board_id: boardId, new_name: newName}, function (data) {
+            data = JSON.parse(data);
+            dom.renameStatus(data, statusId);
+        });
+    },
+    renameCard: function (cardId, boardId, newTitle) {
+        $.post('/cards/rename/', {card_id: cardId, board_id: boardId, new_title: newTitle}, function (data) {
+            data = JSON.parse(data);
+            dom.renameCard(data, cardId);
+        });
+    },
     // here comes more features
 };

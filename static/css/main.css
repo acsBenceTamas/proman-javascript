@@ -24,3 +24,7 @@
 .card-trash .gu-transit{
     display: none;
 }
+
+.status-title{
+    width: 100%;
+}

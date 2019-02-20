@@ -80,7 +80,6 @@ def statuses():
 def statuses_create():
     return json.dumps(data_manager.add_status(request.form))
 
-
 @app.route("/boards/<int:board_id>/statuses/")
 def statuses_for_board(board_id):
     if data_manager.get_board_by_id(board_id).get("user_id") == session.get("user_id"):
@@ -93,6 +92,15 @@ def statuses_for_board(board_id):
 def status_by_id(status_id):
     return json.dumps(data_manager.get_status_by_id(status_id))
 
+@app.route("/statuses/rename/", methods=['POST'])
+def status_rename():
+    print(request.form)
+    board = data_manager.get_board_by_id(request.form['board_id'])
+    if session['user_id'] == board['user_id'] or board['user_id'] == -1:
+        if security.check_text_validity(request.form['new_name'], extra_characters=" "):
+            return json.dumps(data_manager.rename_status(request.form['status_id'], request.form['new_name']))
+        return json.dumps(False)
+    return json.dumps(False)
 
 @app.route("/cards/")
 def cards():
@@ -121,6 +129,15 @@ def card_delete(card_id):
     if board['user_id'] == session.get('user_id') or board['user_id'] == -1:
         data_manager.delete_card(card_id)
         return json.dumps(True)
+    return json.dumps(False)
+
+@app.route("/cards/rename/", methods=['POST'])
+def card_rename():
+    board = data_manager.get_board_by_id(request.form['board_id'])
+    if session['user_id'] == board['user_id'] or board['user_id'] == -1:
+        if security.check_text_validity(request.form['new_title'], extra_characters=" "):
+            return json.dumps(data_manager.rename_card(request.form['card_id'], request.form['new_title']))
+        return json.dumps(False)
     return json.dumps(False)
 
 @app.route("/boards/delete/<int:board_id>")
