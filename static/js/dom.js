@@ -84,7 +84,6 @@ let dom = {
                     cardEditElement.appendChild(newEditableCard).focus();
                     $('#current-edit').blur(function (event) {
                         let titleForEdit = cardEditElement.firstElementChild.value;
-                        console.log('test');
                         dataHandler.renameCard(card.id, card.board_id, titleForEdit);
                     });
                 }
@@ -145,7 +144,6 @@ let dom = {
     },
 
     removeBoards: function() {
-        console.log('removing boards');
         let boards = document.querySelectorAll('.board-card:not(#template-board-main-card)');
         for (let i = boards.length; i > 0; i--) {
             boards[i-1].remove();
