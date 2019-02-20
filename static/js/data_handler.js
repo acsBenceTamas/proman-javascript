@@ -16,44 +16,39 @@ let dataHandler = {
         this._loadData();
     },
     getBoards: function (callback) {
-        fetch('/boards/')
+        return fetch('/boards/')
             .then((response) => response.json())
             .then((data) => callback(data))
     },
     getBoard: function (boardId, callback) {
-        fetch(`/boards/${boardId}`)
+        return fetch(`/boards/${boardId}`)
             .then((response) => response.json())
             .then((data) => callback(data))
     },
     getStatuses: function (callback) {
-        fetch('/status/')
+        return fetch('/status/')
             .then((response) => response.json())
             .then((data) => callback(data))
     },
-    getStatusesByBoardId: function (boardId) {
-        $.get('/boards/'+boardId+'/statuses/', function (data) {
+    getStatusesByBoardId: function (boardId, callback) {
+        return $.get('/boards/'+boardId+'/statuses/', function (data) {
             data = JSON.parse(data);
-            if(data){
-                for(let status of data){
-                    dom.addStatusToBoard(boardId, status.name, status.id);
-                }
-                dom.loadCards(boardId);
-            }
+            callback(data);
 
         });
     },
     getStatus: function (statusId, callback) {
-        fetch(`/status/${statusId}`)
+        return fetch(`/status/${statusId}`)
             .then((response) => response.json())
             .then((data) => callback(data))
     },
     getCardsByBoardId: function (boardId, callback) {
-        fetch(`/board/${boardId}/cards/`)
+        return fetch(`/board/${boardId}/cards/`)
             .then((response) => response.json())
             .then((data) => callback(data))
     },
     getCard: function (cardId, callback) {
-        fetch(`/cards/${cardId}`)
+        return fetch(`/cards/${cardId}`)
             .then((response) => response.json())
             .then((data) => callback(data))
     },
@@ -61,7 +56,7 @@ let dataHandler = {
         let form = new FormData();
         form.set("title", boardTitle);
         form.set("public", isPublic);
-        fetch('/boards/create/',
+        return fetch('/boards/create/',
             {method: 'POST',
             body: form}
             )
@@ -74,7 +69,7 @@ let dataHandler = {
         form.set("board_id", boardId);
         form.set("status_id", statusId);
         form.set("position", position);
-        fetch('/cards/create/',
+        return fetch('/cards/create/',
             {method: 'POST',
                 body: form}
         )
@@ -85,7 +80,7 @@ let dataHandler = {
         let form = new FormData();
         form.set("name", statusName);
         form.set("board_id", boardId);
-        fetch('/statuses/create/',
+        return fetch('/statuses/create/',
             {method: 'POST',
                 body: form}
         )
@@ -93,7 +88,7 @@ let dataHandler = {
             .then((data) => callback(boardId, statusName, data))
     },
     renameBoard: function (boardId, newTitle) {
-        $.post('/boards/rename/', {board_id: boardId, new_title: newTitle}, function (data) {
+        return $.post('/boards/rename/', {board_id: boardId, new_title: newTitle}, function (data) {
             data = JSON.parse(data);
             if(data){
                 document.querySelector('#board-title-input-'+boardId).dataset.title = newTitle;

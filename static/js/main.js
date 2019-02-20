@@ -53,7 +53,6 @@ function init() {
     });
 
     document.querySelector('#archived-cards-list').addEventListener('click', function (event) {
-        console.log(event.target.tagName);
         if (event.target.tagName === 'BUTTON') {
             $.get(`/cards/archive/${event.target.dataset.cardId}/`, function (data) {
                 let card = JSON.parse(data);
@@ -80,6 +79,47 @@ function init() {
             }
         })
     });
+
+    document.querySelector('#btn-manual-sync').addEventListener('click', function () {
+        let promises = [];
+        let boardData;
+        let statusDataCollection = [];
+        let cardDataCollection = [];
+        const getBoards = dataHandler.getBoards(function (data) {
+            boardData = data;
+            for (const board of boardData) {
+                const getStatusData = dataHandler.getStatusesByBoardId(board.id, function (data) {
+                    statusDataCollection.push(data);
+                });
+                promises.push(getStatusData);
+                const getCardData = dataHandler.getCardsByBoardId(board.id, function (data) {
+                    cardDataCollection.push(data);
+                });
+                promises.push(getCardData);
+            }
+            Promise.all(promises).then(
+                function () {
+                    dom.removeBoards();
+                    for (const board of boardData) {
+                        dom.addBoardToWindow(board);
+                    }
+                    for (let statusData of statusDataCollection) {
+                        for (let status of statusData) {
+                            dom.addStatusToBoard(status.board_id, status.name, status.id);
+                        }
+                    }
+                    for (let statusData of cardDataCollection) {
+                        for (let card of statusData) {
+                            console.log('adding card', card.title);
+                            dom.addCardToWindow(card);
+                        }
+                    }
+                }
+            )
+        });
+        promises.push(getBoards);
+    });
+
     dragulaHandler.init();
 }
 
