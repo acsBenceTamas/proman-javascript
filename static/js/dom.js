@@ -25,7 +25,14 @@ let dom = {
             }
     },
     loadStatuses: function (boardId) {
-        dataHandler.getStatusesByBoardId(boardId)
+        dataHandler.getStatusesByBoardId(boardId, function (data) {
+            if(data){
+                for(let status of data){
+                    dom.addStatusToBoard(boardId, status.name, status.id);
+                }
+                dom.loadCards(boardId);
+            }
+        })
     },
     appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
@@ -113,6 +120,14 @@ let dom = {
             $('#board-title-input-'+board.id).blur(function (event) {
                 dataHandler.renameBoard(board.id, event.target.value);
             })
+        }
+    },
+
+    removeBoards: function() {
+        console.log('removing boards');
+        let boards = document.querySelectorAll('.board-card:not(#template-board-main-card)');
+        for (let i = boards.length; i > 0; i--) {
+            boards[i-1].remove();
         }
     },
 
