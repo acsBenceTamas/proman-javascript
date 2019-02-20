@@ -88,6 +88,7 @@ function init() {
 }
 
 let synchronize = function() {
+    dom.loadProgress(true);
     let promises = [];
     let boardData;
     let statusDataCollection = [];
@@ -121,6 +122,7 @@ let synchronize = function() {
                         dom.addCardToWindow(card);
                     }
                 }
+                dom.loadProgress(false);
             }
         )
     });

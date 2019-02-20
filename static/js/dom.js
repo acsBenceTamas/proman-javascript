@@ -255,4 +255,15 @@ let dom = {
         }
         listContainer.appendChild(list)
     },
+
+    loadProgress: function (state) {
+        let syncBtn = document.querySelector('#btn-manual-sync');
+        if(state){
+            syncBtn.setAttribute('disabled',true);
+            syncBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+        }else{
+            syncBtn.removeAttribute('disabled');
+            syncBtn.innerHTML = 'Synchronize';
+        }
+    },
 };
