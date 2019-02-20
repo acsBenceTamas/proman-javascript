@@ -102,6 +102,19 @@ def get_cards_for_board(cursor, board_id):
 
 
 @connection_handler
+def get_archived_cards_for_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL(
+            """
+            SELECT * FROM cards
+            WHERE board_id = {board_id} AND archived = true
+            """
+        ).format(board_id=sql.Literal(board_id))
+    )
+    return cursor.fetchall()
+
+
+@connection_handler
 def get_card_by_id(cursor, card_id):
     cursor.execute(
         sql.SQL(
@@ -182,6 +195,22 @@ def update_cards(cursor, form):
     cursor.execute(
         " ".join(sql_string)
     )
+
+
+@connection_handler
+def toggle_archived_state_for_card(cursor, card_id):
+    cursor.execute(
+        sql.SQL(
+            """
+            UPDATE cards
+            SET archived = NOT(archived)
+            WHERE id = {card_id}
+            RETURNING *
+            """
+        ).format(card_id=sql.Literal(card_id))
+    )
+    return cursor.fetchone()
+
 
 @connection_handler
 def delete_card(cursor, card_id):

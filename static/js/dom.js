@@ -49,7 +49,7 @@ let dom = {
         if(card.error){
             document.getElementById('card-title').setAttribute('class','form-control is-invalid');
             dom.setFormError('card-create-error', card.error);
-        }else{
+        }else if (card.archived === false) {
             let newCard = document.createElement('li');
             newCard.setAttribute('class', 'list-group-item bg-dark');
             newCard.innerText = card.title;
@@ -82,6 +82,19 @@ let dom = {
                     $('#delete-board-confirmation').modal('show');
                 });
             }
+            boardTemplateClone.querySelector('.archive-card-field').addEventListener('click', function (event) {
+                $.get(`/cards/archive/board/${board.id}/`, function (data) {
+                    data = JSON.parse(data);
+                    let listContainer = document.querySelector('#archived-cards-list');
+                    if (data) {
+                        listContainer.textContent = "";
+                        dom.generateArchivedCardList(data, listContainer);
+                    } else {
+                        listContainer.textContent = "No archived cards for this board.";
+                    }
+                    $('#archived-cards').modal('show');
+                })
+            });
             boardTemplateClone.addEventListener('click', function (event) {
                 document.querySelector('#card-form-board-id').value = board.id;
                 document.querySelector('#status-form-board-id').value = board.id;
@@ -92,6 +105,7 @@ let dom = {
                 dragulaHandler.addItem(dragulaStatusElement);
             }
             dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .card-trash'));
+            dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .archive-card-field'));
 
             $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
@@ -143,5 +157,18 @@ let dom = {
         document.getElementById(fieldId).setAttribute('class','');
         document.getElementById(fieldId).innerHTML = '';
 
-    }
+    },
+
+    generateArchivedCardList: function (cards, listContainer) {
+        let list = listContainer.querySelector('ul');
+        if (list) list.remove();
+        list = document.createElement('ul');
+        for (let card of cards) {
+            row = document.createElement('li');
+            row.innerHTML=
+                `<button class="btn btn-success" data-card-id="${card.id}">Unarchive Card</button> ${card.title}`;
+            list.appendChild(row);
+        }
+        listContainer.appendChild(list)
+    },
 };

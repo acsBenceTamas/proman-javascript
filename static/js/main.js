@@ -52,6 +52,18 @@ function init() {
         document.querySelector('#board-id-'+boardId).remove();
     });
 
+    document.querySelector('#archived-cards-list').addEventListener('click', function (event) {
+        if (event.target.tagName === 'BUTTON') {
+            $.get(`/cards/archive/${event.target.dataset.cardId}/`, function (data) {
+                let card = JSON.parse(data);
+                if (!data.error) {
+                    event.target.closest('li').remove();
+                    dom.addCardToWindow(card);
+                }
+            })
+        }
+    });
+
     $('#create-card').on('shown.bs.modal', function () {
         let select = document.querySelector('#card-status');
         while (select.firstChild) {
