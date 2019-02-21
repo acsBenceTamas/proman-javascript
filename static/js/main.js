@@ -2,6 +2,14 @@
 function init() {
     // init data
     dataHandler.init();
+    const refreshPeriods = [
+        {'milliseconds': 15000, 'display': '15 seconds', 'index': 0},
+        {'milliseconds': 30000, 'display': '30 seconds', 'index': 1},
+        {'milliseconds': 60000, 'display': '60 seconds', 'index': 2},
+        {'milliseconds': 120000, 'display': '2 minutes', 'index': 3},
+        {'milliseconds': 300000, 'display': '5 minutes', 'index': 4},
+        {'milliseconds': 600000, 'display': '10 minutes', 'index': 5},
+    ];
     // loads the boards to the screen
     dom.loadBoards();
 
@@ -80,12 +88,31 @@ function init() {
         })
     });
 
+    document.querySelector('#refresh-period').addEventListener('mouseup', function (event) {
+        const refreshPeriod = refreshPeriods[event.target.value];
+        localStorage.setItem('refresh_period', JSON.stringify(refreshPeriod));
+        document.querySelector('#refresh-period-display').textContent = refreshPeriod.display;
+        clearInterval(refreshTimer);
+        refreshTimer = window.setInterval(synchronize, refreshPeriod.milliseconds);
+    });
+
     document.querySelector('#btn-manual-sync').addEventListener('click', synchronize);
 
-    let refreshTimer = window.setInterval(synchronize, 15000);
+    setupRefreshPeriod();
 
     dragulaHandler.init();
 }
+
+let setupRefreshPeriod = function() {
+    const refreshPeriod = JSON.parse(localStorage.getItem('refresh_period'));
+    document.querySelector('#refresh-period-display').textContent =
+        refreshPeriod ? refreshPeriod.display : '15 seconds';
+    document.querySelector('#refresh-period').value =
+        refreshPeriod ? refreshPeriod.index : 0;
+    let refreshTimer = window.setInterval(
+        synchronize,
+        refreshPeriod ? refreshPeriod.milliseconds : 15000);
+};
 
 let synchronize = function() {
     if(!dom.inEditMode){
@@ -121,7 +148,6 @@ let synchronize = function() {
                     }
                     for (let statusData of cardDataCollection) {
                         for (let card of statusData) {
-                            console.log('adding card', card.title);
                             dom.addCardToWindow(card);
                         }
                     }

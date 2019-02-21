@@ -83,7 +83,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="archived-cards-label">Create card</h5>
+                <h5 class="modal-title" id="archived-cards-label">Archived cards</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -114,6 +114,29 @@
                     </div>
                     <div id="status-create-error"></div>
                     <button type="button" class="btn btn-success btn-block" id="send-status-button">ADD</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="settings-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settings-modal-label">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="refresh-period">Refresh period: <span id="refresh-period-display">15 seconds</span></label><br>
+                        <input name="refresh_period" type="range" class="form-control" id="refresh-period" min="0" max="5" step="1" value="0">
+                    </div>
+                    <div id="settings-error"></div>
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
                 </form>
             </div>
         </div>
