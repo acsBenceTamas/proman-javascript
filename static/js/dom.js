@@ -54,7 +54,6 @@ let dom = {
             document.querySelector('#board-id-'+card.board_id+' .status-id-'+card.status_id).appendChild(newCard);
             document.getElementById('card-title').setAttribute('class','form-control is-valid');
             dom.removeFormError('card-create-error');
-            $('#create-card').modal('hide');
 
             let cardEditElement = document.querySelector('#card-id-'+card.id);
             cardEditElement.dataset.title = card.title;
@@ -121,8 +120,15 @@ let dom = {
             dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .card-trash'));
             dragulaHandler.addItem(document.querySelector('#board-id-'+board.id+' .archive-card-field'));
 
-            $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
+
+            boardTemplateClone.querySelector('.btn-new-card').addEventListener('click', function (event) {
+                let select = document.querySelector('#card-status');
+                while (select.firstChild) {
+                    select.removeChild(select.firstChild);
+                }
+                document.querySelector('#send-card-button').setAttribute('disabled', true);
+            });
 
             $('#board-title-input-'+board.id).focus(function (event) {
                 dom.inEditMode = true;

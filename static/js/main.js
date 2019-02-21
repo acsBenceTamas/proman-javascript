@@ -19,6 +19,7 @@ function init() {
         const title = document.getElementById('board-title').value;
         const isPublic = document.getElementById('board-is-public').checked;
         dataHandler.createNewBoard(title,isPublic,dom.addBoardToWindow);
+        $('#create-board').modal('hide');
     });
 
     document.getElementById("login-button").addEventListener('click', function () {
@@ -47,13 +48,15 @@ function init() {
         const cardTitle = document.getElementById('card-title').value;
         const cardStatus = document.getElementById('card-status').value;
         const boardId = document.getElementById('card-form-board-id').value;
-        dataHandler.createNewCard(cardTitle, boardId, cardStatus, 0, dom.addCardToWindow)
+        dataHandler.createNewCard(cardTitle, boardId, cardStatus, 0, dom.addCardToWindow);
+        $('#create-card').modal('hide');
     });
 
     document.querySelector('#send-status-button').addEventListener('click',function () {
         const statusName = document.getElementById('status-title').value;
         const boardId = document.getElementById('status-form-board-id').value;
-        dataHandler.createNewStatus(statusName, boardId, dom.addStatusToBoard)
+        dataHandler.createNewStatus(statusName, boardId, dom.addStatusToBoard);
+        $('#create-status').modal('hide');
     });
 
     document.querySelector('#btn-delete-board-ok').addEventListener('click', function (event) {
@@ -76,9 +79,6 @@ function init() {
 
     $('#create-card').on('shown.bs.modal', function () {
         let select = document.querySelector('#card-status');
-        while (select.firstChild) {
-            select.removeChild(select.firstChild);
-        }
         $.get('/boards/'+document.querySelector('#card-form-board-id').value+'/statuses/', function (data) {
             let statuses = JSON.parse(data);
             for(let status of statuses){
@@ -87,6 +87,7 @@ function init() {
                 newOption.value = status.id;
                 select.appendChild(newOption);
             }
+            document.querySelector('#send-card-button').removeAttribute('disabled');
         })
     });
 
@@ -100,7 +101,7 @@ function init() {
 
     document.querySelector('#btn-manual-sync').addEventListener('click', synchronize);
 
-    setupRefreshPeriod();
+    let refreshTimer = setupRefreshPeriod();
 
     dragulaHandler.init();
 }
@@ -111,7 +112,7 @@ let setupRefreshPeriod = function() {
         refreshPeriod ? refreshPeriod.display : '15 seconds';
     document.querySelector('#refresh-period').value =
         refreshPeriod ? refreshPeriod.index : 0;
-    let refreshTimer = window.setInterval(
+    return window.setInterval(
         synchronize,
         refreshPeriod ? refreshPeriod.milliseconds : 15000);
 };

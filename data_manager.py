@@ -143,7 +143,6 @@ def get_cards_by_board_id(cursor, board_id):
 
 @connection_handler
 def create_new_card(cursor, card):
-    print("card?")
     cursor.execute(
         sql.SQL(
             """
@@ -163,8 +162,6 @@ def create_new_card(cursor, card):
 
 @connection_handler
 def create_new_board(cursor, board, user_id):
-    print(repr(user_id))
-    print(board['public'])
     if board['public'] == 'true':
         user_id = -1
     cursor.execute(

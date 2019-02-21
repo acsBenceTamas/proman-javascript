@@ -82,7 +82,8 @@ def statuses_create():
 
 @app.route("/boards/<int:board_id>/statuses/")
 def statuses_for_board(board_id):
-    if data_manager.get_board_by_id(board_id).get("user_id") == session.get("user_id"):
+    user_id = data_manager.get_board_by_id(board_id).get("user_id")
+    if user_id == session.get("user_id") or user_id == -1:
         return json.dumps(data_manager.get_statuses_for_board(board_id))
 
     return json.dumps(False)
@@ -96,7 +97,7 @@ def status_by_id(status_id):
 def status_rename():
     board = data_manager.get_board_by_id(request.form['board_id'])
     if session['user_id'] == board['user_id'] or board['user_id'] == -1:
-        if security.check_text_validity(request.form['new_name'], extra_characters=" "):
+        if security.check_text_validity(request.form['new_name'], extra_characters=" '"):
             return json.dumps(data_manager.rename_status(request.form['status_id'], request.form['new_name']))
         return json.dumps(False)
     return json.dumps(False)
@@ -134,7 +135,7 @@ def card_delete(card_id):
 def card_rename():
     board = data_manager.get_board_by_id(request.form['board_id'])
     if session['user_id'] == board['user_id'] or board['user_id'] == -1:
-        if security.check_text_validity(request.form['new_title'], extra_characters=" "):
+        if security.check_text_validity(request.form['new_title'], extra_characters=" '"):
             return json.dumps(data_manager.rename_card(request.form['card_id'], request.form['new_title']))
         return json.dumps(False)
     return json.dumps(False)
@@ -151,7 +152,7 @@ def board_delete(board_id):
 def board_rename():
     board = data_manager.get_board_by_id(request.form['board_id'])
     if session['user_id'] == board['user_id'] or board['user_id'] == -1:
-        if security.check_text_validity(request.form['new_title'], extra_characters=" "):
+        if security.check_text_validity(request.form['new_title'], extra_characters=" '"):
             return json.dumps(data_manager.rename_board(request.form['board_id'], request.form['new_title']))
         return json.dumps(False)
     return json.dumps(False)
@@ -169,14 +170,14 @@ def cards_by_board_id(board_id):
 
 @app.route("/cards/create/", methods=["POST"])
 def create_new_card():
-    if security.check_text_validity(request.form['title'], extra_characters=' '):
+    if security.check_text_validity(request.form['title'], extra_characters=" '"):
         return json.dumps(data_manager.create_new_card(request.form))
     return json.dumps({'error': 'incorrect name'})
 
 
 @app.route("/boards/create/", methods=["POST"])
 def create_new_board():
-    if security.check_text_validity(request.form['title'], extra_characters=' '):
+    if security.check_text_validity(request.form['title'], extra_characters=" '"):
         return json.dumps(data_manager.create_new_board(request.form, session.get('user_id',-1)))
     return json.dumps({'error': 'incorrect name'})
 
@@ -207,7 +208,7 @@ def test():
 
 
 def main():
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
 
 
 if __name__ == '__main__':
