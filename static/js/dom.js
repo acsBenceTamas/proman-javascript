@@ -36,22 +36,6 @@ let dom = {
             }
         })
     },
-    appendToElement: function (elementToExtend, textToAppend, prepend = false) {
-        // function to append new DOM elements (represented by a string) to an existing DOM element
-        let fakeDiv = document.createElement('div');
-        fakeDiv.innerHTML = textToAppend.trim();
-
-        for (childNode of fakeDiv.childNodes) {
-            if (prepend) {
-                elementToExtend.prependChild(childNode);
-            } else {
-                elementToExtend.appendChild(childNode);
-            }
-        }
-
-        return elementToExtend.lastChild;
-    },
-    // here comes more features
 
     addCardToWindow: function(card){
         //  <li class="list-group-item">Test 1</li>
@@ -140,9 +124,12 @@ let dom = {
             $('#create-board').modal('hide');
             dom.removeFormError('board-create-error');
 
+            $('#board-title-input-'+board.id).focus(function (event) {
+                dom.inEditMode = true;
+            });
             $('#board-title-input-'+board.id).blur(function (event) {
                 dataHandler.renameBoard(board.id, event.target.value);
-            })
+            });
         }
     },
 
@@ -258,7 +245,7 @@ let dom = {
         for (let card of cards) {
             row = document.createElement('li');
             row.innerHTML=
-                `<button class="btn btn-success" data-card-id="${card.id}">Unarchive Card</button> ${card.title}`;
+                `<button class="btn btn-sm btn-success" data-card-id="${card.id}">Unarchive Card</button> ${card.title}`;
             list.appendChild(row);
         }
         listContainer.appendChild(list)

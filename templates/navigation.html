@@ -4,8 +4,8 @@
 <div class="collapse navbar-collapse" id="navbarNavDropdown">
      <ul class="navbar-nav">
          <li class="nav-item">
-             <button id="btn-manual-sync" class="btn btn-outline-info">Synchronize</button>
-             <button class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#settings-modal">Settings</button>
+             <button class="btn btn-outline-info border-bottom-0 border-top-0 rounded-0" type="button" data-toggle="modal" data-target="#settings-modal">Settings</button>
+             <button id="btn-manual-sync" class="btn btn-outline-info border-bottom-0 border-top-0 rounded-0">Synchronize</button>
          </li>
     </ul>
 </div>
@@ -15,13 +15,13 @@
         Signed in as <span class="text-success">{{ login_data['username'] }}</span>
     </div>
     <div class="form-inline">
-        <a href="{{ url_for('logout') }}"><button class="btn btn-outline-danger" type="button">✘</button></a>
+        <a href="{{ url_for('logout') }}"><button class="btn btn-outline-danger border-bottom-0 border-top-0 rounded-0" type="button">✘</button></a>
     </div>
 {% else %}
     {% if not login_data['user'] %}
     <div class="form-inline">
-        <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#user-login">Login</button>
-        <button class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#user-register">Register</button>
+        <button class="btn btn-outline-success border-bottom-0 border-top-0 rounded-0 border-right-0" type="button" data-toggle="modal" data-target="#user-login">Login</button>
+        <button class="btn btn-outline-info border-bottom-0 border-top-0 rounded-0" type="button" data-toggle="modal" data-target="#user-register">Register</button>
     </div>
     {% endif %}
 {% endif %}

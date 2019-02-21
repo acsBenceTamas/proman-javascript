@@ -2,6 +2,7 @@
 function init() {
     // init data
     dataHandler.init();
+
     const refreshPeriods = [
         {'milliseconds': 15000, 'display': '15 seconds', 'index': 0},
         {'milliseconds': 30000, 'display': '30 seconds', 'index': 1},
@@ -10,8 +11,9 @@ function init() {
         {'milliseconds': 300000, 'display': '5 minutes', 'index': 4},
         {'milliseconds': 600000, 'display': '10 minutes', 'index': 5},
     ];
+
     // loads the boards to the screen
-    dom.loadBoards();
+    synchronize();
 
     document.getElementById("send-board-button").addEventListener('click',function () {
         const title = document.getElementById('board-title').value;

@@ -95,6 +95,7 @@ let dataHandler = {
             }else{
                 document.querySelector('#board-title-input-'+boardId).value = document.querySelector('#board-title-input-'+boardId).dataset.title;
             }
+            dom.inEditMode = false;
         });
     },
     renameStatus: function (statusId, boardId, newName) {
