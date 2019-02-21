@@ -94,7 +94,6 @@ def status_by_id(status_id):
 
 @app.route("/statuses/rename/", methods=['POST'])
 def status_rename():
-    print(request.form)
     board = data_manager.get_board_by_id(request.form['board_id'])
     if session['user_id'] == board['user_id'] or board['user_id'] == -1:
         if security.check_text_validity(request.form['new_name'], extra_characters=" "):
@@ -150,7 +149,6 @@ def board_delete(board_id):
 
 @app.route("/boards/rename/", methods=['POST'])
 def board_rename():
-    print(request.form)
     board = data_manager.get_board_by_id(request.form['board_id'])
     if session['user_id'] == board['user_id'] or board['user_id'] == -1:
         if security.check_text_validity(request.form['new_title'], extra_characters=" "):
@@ -185,10 +183,8 @@ def create_new_board():
 
 @app.route("/cards/archive/<int:card_id>/")
 def archive_card(card_id):
-    print('Archiving',card_id)
     card = data_manager.get_card_by_id(card_id)
     board = data_manager.get_board_by_id(card.get('board_id'))
-    print(board)
     if not board.get('user_id'):
         return json.dumps({'error': 'card not found'})
     if board.get('user_id') == session.get("user_id") or board.get('user_id') == -1:

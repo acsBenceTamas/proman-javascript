@@ -1,5 +1,7 @@
 // It uses data_handler.js to visualize elements
 let dom = {
+    inEditMode: false,
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(dom.showBoards);
@@ -74,6 +76,7 @@ let dom = {
             cardEditElement.dataset.title = card.title;
             cardEditElement.addEventListener('click', function (event) {
                 if(event.target.tagName === 'P'){
+                    dom.inEditMode = true;
                     let titleForEdit = cardEditElement.firstElementChild.textContent;
                     cardEditElement.firstElementChild.remove();
 
@@ -179,6 +182,7 @@ let dom = {
         let statusEditElement = document.querySelector('#status-name-id-'+statusId);
         statusEditElement.addEventListener('click', function (event) {
             if(event.target.tagName === 'H3'){
+                dom.inEditMode = true;
                 let nameForEdit = statusEditElement.firstElementChild.textContent;
                 statusEditElement.firstElementChild.remove();
 
@@ -206,12 +210,15 @@ let dom = {
             newEditableStatus.setAttribute('class', 'card-title h3');
             newEditableStatus.textContent = newName;
             statusEditElement.appendChild(newEditableStatus);
+            dom.hideAlert();
         }else{
             let newEditableStatus = document.createElement('h3');
             newEditableStatus.setAttribute('class', 'card-title h3');
             newEditableStatus.textContent = statusEditElement.dataset.name;
             statusEditElement.appendChild(newEditableStatus);
+            dom.showAlert('Incorrect input.');
         }
+        dom.inEditMode = false;
     },
 
     renameCard: function (changeOk, cardId){
@@ -224,12 +231,15 @@ let dom = {
             newEditableStatus.setAttribute('class', 'text-secondary border-0 bg-transparent align-bottom mb-0');
             newEditableStatus.textContent = newTitle;
             cardEditElement.appendChild(newEditableStatus);
+            dom.hideAlert();
         }else{
             let newEditableStatus = document.createElement('p');
             newEditableStatus.setAttribute('class', 'text-secondary border-0 bg-transparent align-bottom mb-0');
             newEditableStatus.textContent = cardEditElement.dataset.title;
             cardEditElement.appendChild(newEditableStatus);
+            dom.showAlert('Incorrect input.');
         }
+        dom.inEditMode = false;
     },
     
     setFormError: function (fieldId, errorCode) {
@@ -265,5 +275,20 @@ let dom = {
             syncBtn.removeAttribute('disabled');
             syncBtn.innerHTML = 'Synchronize';
         }
+    },
+
+    showAlert: function (errorCode='Oh snap! Something went wrong please try again.') {
+        let alertSpace = document.querySelector('#alert-space');
+        document.querySelector('#error-message').textContent = errorCode;
+        if(alertSpace.children.length !== 0)
+            alertSpace.firstElementChild.remove();
+        let newError = document.querySelector('#template-alert').firstElementChild.cloneNode(true);
+        alertSpace.appendChild(newError);
+    },
+
+    hideAlert: function () {
+        let alertSpace = document.querySelector('#alert-space');
+        if(alertSpace.children.length !== 0)
+            alertSpace.firstElementChild.remove();
     },
 };
