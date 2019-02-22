@@ -57,6 +57,10 @@ def logout():
     session.pop('user_id')
     return redirect('/')
 
+@app.route('/boards/collapse/', methods=['POST'])
+def board_collapse():
+    print(request.form['active'],request.form['board_id'])
+    return json.dumps(True)
 
 @app.route("/boards/")
 def boards():

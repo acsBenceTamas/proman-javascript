@@ -88,6 +88,9 @@ let dom = {
             boardTemplateClone.getElementsByClassName('board-title')[0].id = 'board-title-input-'+board.id;
             boardTemplateClone.id = 'board-id-'+board.id;
             boardTemplateClone.dataset.id = board.id;
+            boardTemplateClone.querySelector('.collapse').id = 'collapse-board-id-'+board.id;
+            boardTemplateClone.querySelector('.btn-collapse').id = 'btn-collapse-board-id-'+board.id;
+            boardTemplateClone.querySelector('.btn-collapse').dataset.target = '#collapse-board-id-'+board.id;
             if(document.querySelector('#user-data').dataset.userId){
                 boardTemplateClone.querySelector('.btn-board-delete').addEventListener('click', function (event) {
                     document.querySelector('#delete-board-confirmation').dataset.boardId=board.id;
@@ -122,6 +125,21 @@ let dom = {
 
             dom.removeFormError('board-create-error');
 
+            if(board.active)
+                boardTemplateClone.querySelector('.collapse').classList.add('show');
+
+            boardTemplateClone.querySelector('#btn-collapse-board-id-'+board.id).addEventListener('click', function (event) {
+                if(boardTemplateClone.querySelector('.collapse').classList.contains('show')){
+                    console.log('open');
+                    boardTemplateClone.querySelector('#btn-collapse-board-id-'+board.id).textContent = '▼';
+                    dataHandler.changeActive(board.id, false);
+                }else{
+                    console.log('close');
+                    boardTemplateClone.querySelector('#btn-collapse-board-id-'+board.id).textContent = '▲';
+                    dataHandler.changeActive(board.id, true);
+                }
+            });
+
             boardTemplateClone.querySelector('.btn-new-card').addEventListener('click', function (event) {
                 let select = document.querySelector('#card-status');
                 while (select.firstChild) {
@@ -136,6 +154,14 @@ let dom = {
             $('#board-title-input-'+board.id).blur(function (event) {
                 dataHandler.renameBoard(board.id, event.target.value);
             });
+        }
+    },
+
+    changeActive: function(boardId, statusState) {
+        if(statusState){
+            // document.querySelector('.collapse').classList.add('show');
+        }else{
+            // document.querySelector('.collapse').classList.remove('show');
         }
     },
 

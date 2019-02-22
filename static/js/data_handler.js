@@ -110,5 +110,10 @@ let dataHandler = {
             dom.renameCard(data, cardId);
         });
     },
+    changeActive: function (boardId, statusState) {
+        $.post('/boards/collapse/', {board_id: boardId, active: statusState}, function (data) {
+            
+        })
+    }
     // here comes more features
 };

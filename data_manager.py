@@ -159,6 +159,9 @@ def create_new_card(cursor, card):
     )
     return cursor.fetchone()
 
+@connection_handler
+def change_active(cursor, board_id, status):
+    cursor.execute('UPDATE boards SET active=%s WHERE id=%s;', (status,board_id))
 
 @connection_handler
 def create_new_board(cursor, board, user_id):
